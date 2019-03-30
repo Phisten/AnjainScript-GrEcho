@@ -400,7 +400,7 @@ While True
 		ElseIf Find({pic:"TutorialCloseBtn1_977,19,1257,171..png"}) Then
 		ElseIf Find({pic:"Party_HeroList_1190,608,1247,664..png"}) Then
 		ElseIf TryFind({pic:"HeroListPage_119,28,292,63..png"}) Then
-
+			DelayRnd 5000,100
 			StateMC = ""
 			
 			Dim SaveDataDir
