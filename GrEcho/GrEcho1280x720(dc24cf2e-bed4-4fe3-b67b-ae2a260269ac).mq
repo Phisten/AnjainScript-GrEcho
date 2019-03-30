@@ -313,7 +313,22 @@ StateMC = ""
 While True
 	NextLoopDelay = 600
 	NextLoopDelayRnd = 200
+	
+ 	'game First start(stuck in google play game Login)
+	If TryFind({pic:"StuckGoogle_686,185,584,159..png"}) Then 
+		KeyPress "Back"
+		DelayRnd 1000,100
+	ElseIf TryFind({pic:"StuckGoogle_988,335,1059,367..png"}) Then 
+		KeyPress "Back"
+		DelayRnd 1000,100
+	ElseIf TryFind({pic:"StuckGoogle_970,444,1058,644..png"}) Then 
+		KeyPress "Back"
+		DelayRnd 1000,100
+	End If
+	
+	
 	If Sys.GetFront() <> AppName Then 
+		TracePrint Sys.GetFront()
 		Goto MainLoopEnd
 	End If
 	
@@ -322,10 +337,8 @@ While True
 	
  	If StateMC = "" Then 
  		
- 		'game First start(stuck in google play game Login)
-		If TryFind({pic:"StuckGoogle_686,185,584,159..png"}) Then 
-			KeyPress "Back"
-			
+		If TryFind({pic:""}) Then 
+		
 		'Login
 		ElseIf Find({pic:"LoginTitle_37,494,120,574..png",Rect:"341, 372, 871, 574"}) Then
 		ElseIf Find({pic:"LoginTitleConfirm_744,517,872,549..png"}) Then
@@ -353,9 +366,6 @@ While True
 		ElseIf Find({pic:"Gacha_10kaiConfirm_762,521,854,547..png"}) Then
 			StateMC = "Gacha"
 		
-
-		ElseIf Find({pic:""}) Then
-		ElseIf Find({pic:""}) Then
 		
 		
 		'select  Hero
@@ -382,14 +392,20 @@ While True
 			NextLoopDelayRnd = 0
 		
 		Else 
-			If TickCount() - lastTapTime > 5000 Then 
+			If TickCount() - lastTapTime > 300000 Then 
+				KillApp AppName
+				DelayRnd 8000,100
+				RunApp AppName
+				DelayRnd 5000, 100
+				lastTapTime = TickCount()
+			ElseIf TickCount() - lastTapTime > 8000 Then 
 				StateMC = "MoveToDoor"
 			End If
 		End If
 
 	ElseIf StateMC = "MoveToDoor" Then
 		TracePrint "MoveToDoor"
-		Swipe 341, 250, 331, 17, 1500
+		Swipe 341, 250, 331, 17, 1500		
 		StateMC = ""
 		
 	ElseIf StateMC = "Gacha" Then
@@ -429,10 +445,7 @@ While True
 				TracePrint "Dir Create Faild:" & SaveDataDir
 				EndScript
 			End If
-		ElseIf Find({pic:""}) Then
-		ElseIf Find({pic:""}) Then
-		ElseIf Find({pic:""}) Then
-		ElseIf Find({pic:""}) Then
+
 		Else 
 			'show Gacha Card
 			TapRect 755, 58, 974, 137
