@@ -1,0 +1,459 @@
+'Phan.Star
+'phadvAnjain ver 1.2.2
+'update:
+'1.1.1: add TapPicRectIfFind()
+'1.2.0  add Find()
+'		idleTapDelay*10
+'1.2.1  fix find()  Rect bug
+'		add SwipeAB() and support find()
+'1.2.2  find() enhancement
+'		tapMode: Dot
+'		Find Mode: Color
+' 	    Find param: direct
+'		RndRange func
+'		ShiftXY
+
+Randomize
+Dim intX,intY,targetX,targetY,targetX2,targetY2
+Dim tempBool
+Dim lastTapTime
+lastTapTime = TickCount()
+
+'-------------------------
+'Find Func String
+Dim pic,findRect,tapMode,Rect,dropAB,DoNothing,tapFindXY,fuzzyRate,findDelay,Dot,color,Direct,rand,shiftXY
+pic = "pic"
+color = "color"
+findRect = "findRect"
+tapMode = "tapMode"
+Rect = "Rect"
+Dot = "Dot"
+dropAB = "dropAB"
+DoNothing = "DoNothing"
+tapFindXY = "tapFindXY"
+Direct = "Direct"
+fuzzyRate = "fuzzyRate"
+findDelay = "FindDelay"
+rand = "rand"
+shiftXY = "shiftXY"
+'-----------------------------------------------------------------------------------------
+'------------------------------- anjain advance function ---------------------------------
+
+'ex: "Btn_InTheStoryMenu_Skip_793,29,819,60..png" -> 793,29,819,60
+Function GetFindPicRangeFromFormattedPicName(picName)
+    Dim str1
+    str1 = picName
+    Dim last_
+    last_ = InStrRev(str1, "_", -1)
+    Dim dotdotPng
+    dotdotPng = InStrRev(str1, "..png", -1,true)
+    GetFindPicRangeFromFormattedPicName = Mid(str1,last_+1,dotdotPng-last_-1)
+End Function
+
+Function TapIfFind
+    If HasFind() Then
+        TapFind
+    End If
+End Function
+Function HasFind()
+    tempBool = intX > -1 And intY > -1
+    HasFind = tempBool
+End Function
+Sub TapFind
+    TapXy intX,intY
+End Sub
+Sub TapRect(tapX1,tapY1,tapX2,tapY2)
+    targetX = tapX1 + (tapX2-tapX1) * Rnd()
+    targetY = tapY1 + (tapY2 - tapY1) * Rnd()
+    TapXy targetX,targetY
+End Sub
+
+
+
+Function TryFind(p)
+	p[tapMode] = DoNothing
+	TryFind = Find(p)
+End Function
+Function Find(p)
+	Dim FindFuncParam '(rect,Name,direct,fuzzyRate)
+    Dim picName
+    Dim colorName
+    Dim find_x1,find_y1,find_x2,find_y2,ArrTemp()
+    Dim FindAction
+    Dim hasfindTemp
+    Dim fuzzyRateTemp
+    Dim findDirectTemp
+    Dim findDelayTemp
+    
+	'Read---------------------------------------------------------------
+    findDelayTemp = 0
+	If p[findDelay] <> null Then 
+		findDelayTemp = int(p[findDelay])
+	End If
+	
+    'Condition--------------------------------------------------------
+    fuzzyRateTemp = 0.9
+    findDirectTemp = 1
+    
+    'search target --------------------------------------
+    If p[pic] <> null Then 
+        picName = p[pic]
+        FindFuncParam = FindFuncParam + 0100
+
+    	If p[findRect] = null Then 
+			p[findRect] = GetFindPicRangeFromFormattedPicName(picName)
+    	End If
+    End If
+
+    If p[color] <> null Then 
+    	colorName = p[color]
+    	FindFuncParam = 0200
+    End If
+    
+    'search locate and config ----------------------------
+    If p[findRect] <> null Then 
+    	FindAction = findRect
+        ArrTemp = SplitComma(p[findRect])
+        If UBound(ArrTemp) = 3 Then 
+        	find_x1 = ArrTemp(0)
+        	find_y1 = ArrTemp(1)
+        	find_x2 = ArrTemp(2)
+        	find_y2 = ArrTemp(3)
+        	FindFuncParam = FindFuncParam + 1000
+        ElseIf UBound(ArrTemp) = 1 Then 
+        	find_x1 = ArrTemp(0)
+        	find_y1 = ArrTemp(1)
+        	find_x2 = ArrTemp(0)
+        	find_y2 = ArrTemp(1)
+        	FindFuncParam = FindFuncParam + 1000
+        Else 
+        	TracePrint "Error: picName FindRect Not Match :" & picName
+        End If
+    End If
+    
+    If p[fuzzyRate] <> null Then 
+    	fuzzyRateTemp = p[fuzzyRate]
+        FindFuncParam = FindFuncParam + 0001
+    End If
+    If p[Direct] <> null Then 
+    	'0 2
+    	' 1 
+    	'3 4
+    	If p[Direct] = rand Then 
+    		findDirectTemp = RndRange(0,4)
+    	Else 
+    		findDirectTemp = p[Direct]
+    	End If
+        FindFuncParam = FindFuncParam + 0010
+    End If
+    
+    If p[pic] <> null Then
+    	FindPicFunc find_x1, find_y1, find_x2, find_y2, picName, findDirectTemp, fuzzyRateTemp
+    ElseIf p[color] <> null Then
+    	FindColorFunc find_x1, find_y1, find_x2, find_y2, colorName, findDirectTemp, fuzzyRateTemp
+	End If
+	
+	'Action-----------------------------------------------------------
+	Dim tap_x1,tap_y1,tap_x2,tap_y2
+	If p[Rect] <> null Then 
+        ArrTemp = SplitComma(p[Rect])
+        tap_x1 = ArrTemp(0)
+        tap_y1 = ArrTemp(1)
+        tap_x2 = ArrTemp(2)
+        tap_y2 = ArrTemp(3)
+        FindAction = Rect
+	End If
+	If p[dropAB] <> null Then 
+        ArrTemp = SplitComma(p[dropAB])
+        tap_x1 = ArrTemp(0)
+        tap_y1 = ArrTemp(1)
+        tap_x2 = ArrTemp(2)
+        tap_y2 = ArrTemp(3)
+        FindAction = dropAB
+	End If
+	If p[Dot] <> null Then 
+        ArrTemp = SplitComma(p[Dot])
+        tap_x1 = ArrTemp(0)
+        tap_y1 = ArrTemp(1)
+        FindAction = Dot
+	End If
+	If p[shiftXY] <> null Then 
+		FindAction = shiftXY
+	End If
+	
+	'override FindAction
+	If p[tapMode] <> null Then 
+		FindAction = p[tapMode]
+	End If
+
+	hasfindTemp = HasFind()
+	If hasfindTemp Then 
+		Select Case FindAction
+			Case findRect
+				TapRect find_x1, find_y1, find_x2, find_y2
+			Case Rect
+				TapRect tap_x1, tap_y1, tap_x2, tap_y2
+			Case dropAB
+				SwipeAB tap_x1, tap_y1, tap_x2, tap_y2
+			Case Dot
+				TapXy tap_x1, tap_y1
+			Case tapFindXY
+				TapFind
+			Case shiftXY
+        		ArrTemp = SplitComma(p[shiftXY])
+				intX = intX + ArrTemp(0)
+				intY = intY + ArrTemp(1)
+				TapFind
+			Case DoNothing
+				'DoNothing
+			Case Else
+				TracePrint "Error: FindAction= " & FindAction
+		End Select
+		Delay findDelayTemp
+	End If
+	
+	Find = hasfindTemp
+End Function
+Function ReadIntParam(strParam1)
+	ReadIntParam = null
+	If strParam1 <> null Then 
+		ReadIntParam = int(strParam1)
+	End If
+End Function
+
+'-----------------------------------------------------------------------------------------
+'----------------------------------- anjain Base API -------------------------------------
+Function SplitComma(str1)
+	SplitComma = Split(str1,",")
+End Function
+Function SplitArrStr(str1)
+	SplitArrStr = Split(str1,"|")
+End Function
+
+Function FindColorFunc(x1, y1, x2, y2, colorName,direct,fuzzyRate)
+    FindColorFunc = False
+    FindColor x1, y1 ,x2 ,y2 , colorName,direct,fuzzyRate,intX,intY
+    If intX > -1 And intY > -1 Then 
+        TracePrint "Find " & colorName & " " & intX & "," & intY
+        FindColorFunc = True
+    End If
+End Function
+Function FindPicFunc(x1,y1,x2,y2,picName,direct,fuzzyRate)
+    FindPicFunc = False
+    FindPic x1, y1 ,x2 ,y2 ,  "Attachment:" & picName, "000000", direct, fuzzyRate, intX, intY
+    If intX > -1 And intY > -1 Then 
+        TracePrint "Find " & picName & " " & intX & "," & intY
+        FindPicFunc = True
+    End If
+End Function
+
+Sub TapXy(tapX, tapY)
+    targetX = int(tapX + 5 * Rnd())
+    targetY = int(tapY + 5 * Rnd())
+    Dim WakuUpTimeMS
+    WakuUpTimeMS = 10 + Sqr(TickCount() - lastTapTime) * 10 * Rnd()
+    Delay WakuUpTimeMS
+    Tap targetX, targetY
+    lastTapTime = TickCount()
+    TracePrint "Tap " & targetX & "," & targetY
+    Delay 10 + 15 * Rnd()
+End Sub
+Sub SwipeAB(swipeAx, swipeAy,swipeBx,swipeBy)
+    targetX = int(swipeAx + 5 * Rnd())
+    targetY = int(swipeAy + 5 * Rnd())
+    targetX2 = int(swipeBx + 5 * Rnd())
+    targetY2 = int(swipeBy + 5 * Rnd())
+    Dim WakuUpTimeMS
+    WakuUpTimeMS = 10 + Sqr(TickCount() - lastTapTime) * 10 * Rnd()
+    Delay WakuUpTimeMS
+    Swipe targetX, targetY, targetX2, targetY2
+    lastTapTime = TickCount()
+    TracePrint "Swipe " & targetX & "," & targetY & " to " &  targetX2 & "," & targetY2
+    Delay 10 + 15 * Rnd()
+End Sub
+
+Sub PrintIfFind(msgStr)
+    If intX > -1 And intY > -1 Then
+        TracePrint msgStr
+    End If
+End Sub
+Sub DelayRnd(BaseDelay,RndDelay)
+    Delay BaseDelay + RndDelay*Rnd()
+End Sub
+Function RndRange(min,max)
+	RndRange = Int((max - min + 1) * Rnd() + min)
+End Function
+
+
+
+
+'-----------------------------------------------------------------------------------------
+// Main Loop
+Dim AppName
+AppName = "com.square_enix.android_googleplay.grimmsechoes"
+Dim ShareDir
+ShareDir = "/mnt/shell/emulated/0/Others/"
+Dim ShardedPerfsPath
+ShardedPerfsPath = "/data/data/com.square_enix.android_googleplay.grimmsechoes/shared_prefs/"
+
+
+
+Dim NextLoopDelay,NextLoopDelayRnd
+
+Dim StateMC
+StateMC = ""
+'MoveToDoor
+'Gacha
+'
+'
+'
+
+
+
+While True
+	NextLoopDelay = 600
+	NextLoopDelayRnd = 200
+	If Sys.GetFront() <> AppName Then 
+		Goto MainLoopEnd
+	End If
+	
+	
+	KeepCapture 
+	
+ 	If StateMC = "" Then 
+ 		
+ 		'game First start(stuck in google play game Login)
+		If TryFind({pic:"StuckGoogle_686,185,584,159..png"}) Then 
+			KeyPress "Back"
+			
+		'Login
+		ElseIf Find({pic:"LoginTitle_37,494,120,574..png",Rect:"341, 372, 871, 574"}) Then
+		ElseIf Find({pic:"LoginTitleConfirm_744,517,872,549..png"}) Then
+			
+		ElseIf Find({pic:"DialogAutoBtn_1074,25,1163,60..png", Rect:"561,62,762,113"}) Then 
+		ElseIf TryFind({pic:"DialogInputOkBtn_1218,69,1247,88..png"}) Then
+			DelayRnd 2000,300
+			TapXy 181, 80
+			DelayRnd 1000, 300
+			InputText RndRange(1000,9999)
+			DelayRnd 1000, 300
+			Find ({pic:"DialogInputOkBtn_1218,69,1247,88..png"})
+		ElseIf Find({pic:"DialogInputPlayerNameConfirm_596,422,688,453..png"}) Then
+		
+		ElseIf Find({pic:"TutorialCloseBtn1_977,19,1257,171..png"}) Then
+		ElseIf Find({pic:"TutorialCloseBtn2_927,36,1175,209..png"}) Then
+		
+		ElseIf Find({pic:"MenuBtn_1185,634,1237,684..png"}) Then
+		ElseIf Find({pic:"Menu_PartyBtn_129,543,180,609..png"}) Then
+		
+		ElseIf Find({pic:"PartyPage_23,12,334,83..png", Dot:"40,50"}) Then
+		
+		'ElseIf TryFind({pic:"GachaPage_1047,199,1150,230..png"}) Then
+		ElseIf Find({pic:"Gacha_10kai_982,566,1117,623..png"}) Then
+		ElseIf Find({pic:"Gacha_10kaiConfirm_762,521,854,547..png"}) Then
+			StateMC = "Gacha"
+		
+
+		ElseIf Find({pic:""}) Then
+		ElseIf Find({pic:""}) Then
+		
+		
+		'select  Hero
+		ElseIf Find({pic:"DialogSelectHeroMid_462,395,823,431..png"}) Then
+		ElseIf Find({pic:"DialogSelectHeroConfirm_604,334,680,366..png"}) Then
+		ElseIf Find({pic:"DialogNpcQ1_530,480,727,518..png"}) Then
+		ElseIf Find({pic:"DialogNpcQ2_522,486,753,514..png"}) Then
+
+
+			
+		'Battle
+		ElseIf TryFind({pic:"Battle_MainCharIsHummer_92,68,119,92..png"}) Then
+			TapRect 521,118,781,180
+			NextLoopDelay = 100
+			NextLoopDelayRnd = 100
+			
+			
+		
+		ElseIf Find({pic:"NpcMsgIcon_670,185,926,579..png",fuzzyRate:"0.7"}) Then
+			NextLoopDelay = 0
+			NextLoopDelayRnd = 0
+		ElseIf Find({pic:"NpcMsgIcon_478,154,928,438..png",fuzzyRate:"0.7"}) Then
+			NextLoopDelay = 0
+			NextLoopDelayRnd = 0
+		
+		Else 
+			If TickCount() - lastTapTime > 5000 Then 
+				StateMC = "MoveToDoor"
+			End If
+		End If
+
+	ElseIf StateMC = "MoveToDoor" Then
+		TracePrint "MoveToDoor"
+		Swipe 341, 250, 331, 17, 1500
+		StateMC = ""
+		
+	ElseIf StateMC = "Gacha" Then
+		
+		If Find({pic:""}) Then 
+		ElseIf Find({pic:"MenuBtn_1185,634,1237,684..png"}) Then
+		ElseIf Find({pic:"Menu_PartyBtn_129,543,180,609..png"}) Then
+		ElseIf Find({pic:"TutorialCloseBtn1_977,19,1257,171..png"}) Then
+		ElseIf Find({pic:"Party_HeroList_1190,608,1247,664..png"}) Then
+		ElseIf TryFind({pic:"HeroListPage_119,28,292,63..png"}) Then
+
+			StateMC = ""
+			
+			Dim SaveDataDir
+			SaveDataDir =  Time() & "_" &  GetDeviceID() Mod 1000 & "/"
+			TracePrint SaveDataDir
+			Dir.Create (ShareDir & SaveDataDir)
+			DelayRnd 1000,100
+			
+			If Dir.Exist(ShareDir & SaveDataDir) Then 
+				SnapShot ShareDir & SaveDataDir & "heroList.png"
+				Dim copyResult
+				copyResult = Dir.Copy(ShardedPerfsPath, ShareDir & SaveDataDir & "shared_prefs/")
+				If copyResult Then 
+					Dir.Delete(ShardedPerfsPath)
+					Dir.Delete("/data/data/com.square_enix.android_googleplay.grimmsechoes/files/uuid_backup")
+					Dir.Delete("/data/data/com.square_enix.android_googleplay.grimmsechoes/files/documents/")
+					KillApp AppName
+					DelayRnd 8000,100
+					RunApp AppName
+					DelayRnd 5000,100
+				Else 
+					TracePrint "shared_prefs Copy Faild:" & SaveDataDir
+					EndScript
+				End If
+			Else 
+				TracePrint "Dir Create Faild:" & SaveDataDir
+				EndScript
+			End If
+		ElseIf Find({pic:""}) Then
+		ElseIf Find({pic:""}) Then
+		ElseIf Find({pic:""}) Then
+		ElseIf Find({pic:""}) Then
+		Else 
+			'show Gacha Card
+			TapRect 755, 58, 974, 137
+ 		End If
+ 	End If
+ 	
+
+	
+	ReleaseCapture
+    '--------
+    
+    
+    
+    '--------
+
+
+	Rem MainLoopEnd
+    DelayRnd NextLoopDelay,NextLoopDelayRnd
+Wend
+EndScript
+
+
+
+
