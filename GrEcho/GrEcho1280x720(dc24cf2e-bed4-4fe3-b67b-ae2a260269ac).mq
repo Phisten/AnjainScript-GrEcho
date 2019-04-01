@@ -323,12 +323,14 @@ While True
 		DelayRnd 1000,100
 	ElseIf TryFind({pic:"StuckGoogle_970,444,1058,644..png"}) Then 
 		KeyPress "Back"
-		DelayRnd 1000,100
+		DelayRnd 1000, 100
+	ElseIf Find({pic:"NoResponse_770,403,953,465..png"}) Then
 	End If
 	
-	
-	If Sys.GetFront() <> AppName Then 
-		TracePrint Sys.GetFront()
+	Dim curFront
+	curFront = Sys.GetFront()
+	If curFront <> AppName Then 
+		TracePrint curFront
 		Goto MainLoopEnd
 	End If
 	
@@ -342,6 +344,7 @@ While True
 		'Login
 		ElseIf Find({pic:"LoginTitle_37,494,120,574..png",Rect:"341, 372, 871, 574"}) Then
 		ElseIf Find({pic:"LoginTitleConfirm_744,517,872,549..png"}) Then
+			StateMC = "StartStory"
 			
 		ElseIf Find({pic:"DialogAutoBtn_1074,25,1163,60..png", Rect:"561,62,762,113"}) Then 
 		ElseIf TryFind({pic:"DialogInputOkBtn_1218,69,1247,88..png"}) Then
@@ -349,12 +352,14 @@ While True
 			TapXy 181, 80
 			DelayRnd 1000, 300
 			InputText RndRange(1000,9999)
-			DelayRnd 1000, 300
+			DelayRnd 2500, 300
 			Find ({pic:"DialogInputOkBtn_1218,69,1247,88..png"})
 		ElseIf Find({pic:"DialogInputPlayerNameConfirm_596,422,688,453..png"}) Then
 		
+		
 		ElseIf Find({pic:"TutorialCloseBtn1_977,19,1257,171..png"}) Then
 		ElseIf Find({pic:"TutorialCloseBtn2_927,36,1175,209..png"}) Then
+		
 		
 		ElseIf Find({pic:"MenuBtn_1185,634,1237,684..png"}) Then
 		ElseIf Find({pic:"Menu_PartyBtn_129,543,180,609..png"}) Then
@@ -366,14 +371,11 @@ While True
 		ElseIf Find({pic:"Gacha_10kaiConfirm_762,521,854,547..png"}) Then
 			StateMC = "Gacha"
 		
-		
-		
 		'select  Hero
 		ElseIf Find({pic:"DialogSelectHeroMid_462,395,823,431..png"}) Then
 		ElseIf Find({pic:"DialogSelectHeroConfirm_604,334,680,366..png"}) Then
 		ElseIf Find({pic:"DialogNpcQ1_530,480,727,518..png"}) Then
 		ElseIf Find({pic:"DialogNpcQ2_522,486,753,514..png"}) Then
-
 
 			
 		'Battle
@@ -382,6 +384,7 @@ While True
 			NextLoopDelay = 100
 			NextLoopDelayRnd = 100
 			
+		ElseIf Find({pic:"BattleResult_396,85,469,104..png"}) Then
 			
 		
 		ElseIf Find({pic:"NpcMsgIcon_670,185,926,579..png",fuzzyRate:"0.7"}) Then
@@ -392,20 +395,15 @@ While True
 			NextLoopDelayRnd = 0
 		
 		Else 
-			If TickCount() - lastTapTime > 300000 Then 
-				KillApp AppName
-				DelayRnd 8000,100
-				RunApp AppName
-				DelayRnd 5000, 100
-				lastTapTime = TickCount()
-			ElseIf TickCount() - lastTapTime > 8000 Then 
+			If TickCount() - lastTapTime > 8000 Then 
 				StateMC = "MoveToDoor"
 			End If
 		End If
 
 	ElseIf StateMC = "MoveToDoor" Then
 		TracePrint "MoveToDoor"
-		Swipe 341, 250, 331, 17, 1500		
+		'341,250
+		Swipe 360, 250, 331, 17, 1500		
 		StateMC = ""
 		
 	ElseIf StateMC = "Gacha" Then
@@ -420,7 +418,7 @@ While True
 			StateMC = ""
 			
 			Dim SaveDataDir
-			SaveDataDir =  Time() & "_" &  GetDeviceID() Mod 1000 & "/"
+			SaveDataDir =  Time() & "_" &  GetDeviceID() Mod 10000 & "/"
 			TracePrint SaveDataDir
 			Dir.Create (ShareDir & SaveDataDir)
 			DelayRnd 1000,100
@@ -434,7 +432,7 @@ While True
 					Dir.Delete("/data/data/com.square_enix.android_googleplay.grimmsechoes/files/uuid_backup")
 					Dir.Delete("/data/data/com.square_enix.android_googleplay.grimmsechoes/files/documents/")
 					KillApp AppName
-					DelayRnd 8000,100
+					DelayRnd 5000,100
 					RunApp AppName
 					DelayRnd 5000,100
 				Else 
@@ -450,8 +448,25 @@ While True
 			'show Gacha Card
 			TapRect 755, 58, 974, 137
  		End If
+ 		
+ 		
+	ElseIf StateMC = "StartStory" Then
+ 		TapRect 561,62,762,113
+		NextLoopDelay = 50
+		NextLoopDelayRnd = 50
+ 		If Find({pic:"DialogAutoBtn_1074,25,1163,60..png", Rect:"561,62,762,113"}) Then 
+			StateMC = ""
+ 		End If
  	End If
  	
+ 	
+ 	If TickCount() - lastTapTime > 300000 Then 
+		KillApp AppName
+		DelayRnd 5000,100
+		RunApp AppName
+		DelayRnd 5000, 100
+		lastTapTime = TickCount()
+	End If
 
 	
 	ReleaseCapture
