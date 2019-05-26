@@ -1,32 +1,67 @@
 
 
 
+'巡航
+    'Map1_D1Area 一圖打錢地城繞圈
+    MapTravel_Map1_D1Area..png
+    '確認移動到地圖上的標記
+    find({pic:"MapTravel_Confirm_441,229,561,245..png",Dot:"599,395"})
 
-
-
-
-
-
-
-
-
-
-
+    '關閉地圖的按鈕,用於確認地圖是否被開啟
+    MapCloseBtn_838,39,860,65..png
+    '關閉地圖的按鈕,地圖被其他視窗壓在背後時
+    MapCloseBtnBG_836,39,862,63..png
 
 
 'HUD已顯示
-'任務導航標誌
-find({pic:"NavIcon_29,33,57,58..png",tapMode:DoNothing})
-'領錢
-Hud_GetMoney_880,341,913,374..png
-'領AP
-Hud_GetAp_883,402,914,431..png
-'完整選單按鈕
-Hud_MenuOnBtn_895,483,925,509..png
-'關閉完整選單
-Hud_MenuOffBtn_896,485,924,509..png
+    '任務導航標誌
+    find({pic:"NavIcon_29,33,57,58..png",tapMode:DoNothing})
+    '領錢
+    Hud_GetMoney_880,341,913,374..png
+    '領AP
+    Hud_GetAp_883,402,914,431..png
+    '完整選單按鈕
+    Hud_MenuOnBtn_895,483,925,509..png
+    '關閉完整選單
+    Hud_MenuOffBtn_896,485,924,509..png
+'主選單
+    '任務選單
+    QuestBoard_Main_811,97,895,129..png
+    QuestBoard_Main_BG_831,101,857,124..png
+    QuestBoard_Tower_821,350,878,362..png
+        TowerQC_626,387,715,406..png
+            Find({pic:"TowerQC_NoCostConfirm_481,192,531,216..png",Dot:"605,391"})
+                'TowerQC_Result_293,60,369,78..png
+    QuestBoard_Hokora_817,284,889,306..png
+        'Hokora_HasEnegry_474,27,558,39..png
+        Hokora_HasEnegry2_488,24,507,41..png
+        HokoraQC_624,444,685,465..png
+            HokoraQC_Confirm_570,387,640,414..png
 
-'戰鬥結束
-'戰鬥報酬領取清單的標題
-BattleResult_300,65,369,71..png
+'隊伍配置
+    PartyPage_77,10,271,62..png
+    
+    
+
+'全域
+    '每日任務完成時的報酬訊窗
+    find({pic:"DailyQuestResult_576,344,671,389..png"})
+        '取得寶箱的訊窗
+        find({pic:"GetChest_446,338,518,359..png"})
+            '拿完寶箱後會跳出寶箱清單
+            find({pic:"ChestList_278,207,346,231..png"})
+
+
+'戰鬥
+    '戰鬥中的暫停按鈕
+    Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"})
+    '戰鬥報酬領取清單的標題
+    BattleResult_300,65,369,71..png
+
+'登入
+    '換日訊窗
+    '登入獎勵
+    LoginBound_261,51,554,102..png
+    '每日初回登入時補給5次日任時會打開任務清單
+	ElseIf find({pic:"DailyQuestList_727,157,784,174.png"}) Then 
 
