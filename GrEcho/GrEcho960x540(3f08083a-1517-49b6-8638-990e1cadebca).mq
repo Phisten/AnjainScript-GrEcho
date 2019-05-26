@@ -318,16 +318,15 @@ _Map1_D1Area = "Map1_D1Area"
 
 
 
-Dim RunQuickClear,LastQCTick,LastGetMoneyTick,LastGetApTick,TowerClear
+Dim RunQuickClear,sLastQC,sLastGetMoney,sLastGetAp,TowerClear
 RunQuickClear = false
-Dim sQC,sGetMoney,sGetAp
-sQC = "sQC"
-sGetMoney = "sGetMoney"
-sGetAp = "sGetAp"
-
-LastQCTick = TickCount()
-LastGetMoneyTick = TickCount()
-LastGetApTick = TickCount()
+Dim sQuickClear,sGetMoney,sGetAp
+sLastQC = "sLastQC"
+sLastGetMoney = "sLastGetMoney"
+sLastGetAp = "sLastGetAp"
+TimerUpdate(sLastQC)
+TimerUpdate(sLastGetMoney)
+TimerUpdate(sLastGetAp)
 
 
 TowerClear = false
@@ -362,18 +361,18 @@ NavPlan_Map1_D1Area
 
 While true
 	'debug------------------------
-    TestFunc()
+    'TestFunc()
     
 	'NavMode = _WayPoint
 	'-----------------------------
 	KeepCapture
     curLoopTick = TickCount()
-	If False Then 
-		
+    
+	If False Then
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
 		DelayRnd 5000,1000
-	'BattleEnd
+	'BattleEnd or other result
 	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then 
     	DelayRnd 3000, 100
 	
@@ -385,40 +384,88 @@ While true
     'Login
 	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then 
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
-    
 
 	'--------------------------------------
     'QuickMenu Get AP/Money
-    ElseIf LastGetMoneyTick - curLoopTick > 16*60000 And _  
-    find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
-        LastGetMoneyTick = TickCount()
-        DelayRnd 8000,2000
-        Goto EndLoop
-    ElseIf LastGetApTick - curLoopTick > 10*60000 And _  
-    find({pic:"Hud_GetAp_883,402,914,431..png"}) then
-        LastGetApTick = TickCount()
-        DelayRnd 8000,2000
-        Goto EndLoop
-    End if
+    ElseIf SubScript_GetMoneyAP() then
 
     'QuickClear ------------------------------------------------------
     'OpenMenu
-    If false then
     'QuickTimer - OpenMenu
-    ElseIf (RunQuickClear Or LastQCTick - curLoopTick > 60*60000) And _  
-    Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
+    ElseIf (RunQuickClear Or isTimeOver(sQuickClear,60*60000)) And _
+     Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000,500
-
     'MenuHasBeenOpen
-    ElseIf RunQuickClear And _  
+    ElseIf RunQuickClear And _
      TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) then
     	TracePrint "Menu Select QuestBoard"
         DelayRnd 1000,100
     	TapXy(297,433)
         DelayRnd 1000,100
+    ElseIf SubScript_QuestBoard() then
 
+    'Nav  -----------------  
+    ElseIf NavMode = _MapTravel Then 
+    	MapTravel (_Map1_D1Area)
+    ElseIf NavMode = _WayPoint And isHudOn() Then 
+    	If NavWpRun() = False Then 
+            'Nav End   reStart Nav
+    		NavPlan_Map1_D1Area()
+    	End If
+	'nav end -----------------    
+
+	
+    
+	End If
+
+    Rem EndLoop
+    DelayRnd 1200, 200
+    Rem EndLoopWithOutDelay
+    ReleaseCapture
+Wend
+EndScript
+
+
+'--------------------------------------------------
+
+'Sub script
+Function PartyNote()
+    PartyNote = true
+	If isPartyPage() Then 
+		DelayRnd 500, 100
+		TracePrint "swipe Note Start"
+		For i = 86 To 329 Step 34
+			SwipeAB(71,i,868,i,2000)
+			DelayRnd 200, 100
+		Next
+		TracePrint "swipe Note End"
+		DelayRnd 500, 100
+    Else
+        PartyNote = false
+	End If
+End Function
+
+Function SubScript_GetMoneyAP()
+    SubScript_GetMoneyAP = true
+    if false then
+    ElseIf isTimeOver(sLastGetMoney,16*60000) And _  
+    find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
+        TimerUpdate(sLastGetMoney)
+        DelayRnd 8000,2000
+    ElseIf isTimeOver(sLastGetAp,10*60000) And _  
+    find({pic:"Hud_GetAp_883,402,914,431..png"}) then
+        TimerUpdate(sLastGetAp)
+        DelayRnd 8000,2000
+    Else
+        SubScript_GetMoneyAP = false
+    End if
+End Function
+
+Function SubScript_QuestBoard()
+    SubScript_QuestBoard = true
     'Select QuestBoard
+    If false then
     ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) then
         If TowerClear = False then
             TracePrint "QuestBoard Select Tower"
@@ -468,43 +515,11 @@ While true
         ElseIf Find({pic:"HokoraQC_Confirm_570,387,640,414..png"}) then
         End If
         DelayRnd 2000,500
-
-    'Nav  -----------------  
-    ElseIf NavMode = _MapTravel Then 
-    	MapTravel (_Map1_D1Area)
-    ElseIf NavMode = _WayPoint And isHudOn() Then 
-    	If NavWpRun() = False Then 
-            'Nav End   reStart Nav
-    		NavPlan_Map1_D1Area()
-    	End If
-	'nav end -----------------    
-
-
-    
-	End If
-
-    Rem EndLoop
-    DelayRnd 1200, 200
-    Rem EndLoopWithOutDelay
-    ReleaseCapture
-Wend
-EndScript
-
-
-'--------------------------------------------------
-'Sub
-Function PartyNote()
-	If isPartyPage() Then 
-		DelayRnd 500, 100
-		TracePrint "swipe Note Start"
-		For i = 86 To 329 Step 34
-			SwipeAB(71,i,868,i,2000)
-			DelayRnd 200, 100
-		Next
-		TracePrint "swipe Note End"
-		DelayRnd 500, 100
-	End If
+    Else
+        SubScript_QuestBoard = false
+    End If
 End Function
+
 
 
 '--------------------------------------------------
@@ -513,7 +528,6 @@ Sub NavPlan_Map1_D1Area
 	NavPlan = _Map1_D1Area
 	NavMode = _MapTravel
 	NavWPConfig_Map1_D1Area 
-	
 End Sub
 Sub NavWPConfig_Map1_D1Area
     NavWp = Array(MoveDown,MoveRD,MoveRight,MoveRU,MoveUp,MoveLeft,MoveLeft)
@@ -548,20 +562,7 @@ Function MapTravel(mapTravelTarget)
 		
 		find ({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"245,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9})
 		DelayRnd 500, 100
-//        find ({pic:travelTargetPic, findRect:"182,79,819,464", TapMode:tapFindXY, fuzzyRate:0.8})
-//		DelayRnd 500,100
-//        find ({pic:travelTargetPic, findRect:"356,202,579,345", TapMode:tapFindXY, fuzzyRate:0.7})
-//		DelayRnd 500,100
-//        find ({pic:travelTargetPic, findRect:"158,97,414,251", TapMode:tapFindXY, fuzzyRate:0.7})
-//		DelayRnd 500,100
-//        find ({pic:travelTargetPic, findRect:"460,96,797,270", TapMode:tapFindXY, fuzzyRate:0.7})
-//		DelayRnd 500,100
-//        find ({pic:travelTargetPic, findRect:"161,270,473,449", TapMode:tapFindXY, fuzzyRate:0.7})
-//		DelayRnd 500,100
-//        find ({pic:travelTargetPic, findRect:"481,279,790,446", TapMode:tapFindXY, fuzzyRate:0.7})
-//		DelayRnd 500, 100
 
-        'End If
 	ElseIf find({pic:"MapCloseBtnBG_836,39,862,63..png", tapMode:DoNothing}) Then 
 		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then
 			NavMode = _WayPoint
