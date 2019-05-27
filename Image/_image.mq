@@ -57,9 +57,11 @@
     Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"})
     '戰鬥報酬領取清單的標題
     BattleResult_300,65,369,71..png
+    Battle_PauseContinueBtn_559,309,619,342
 
 '登入
     '換日訊窗
+	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
     '登入獎勵
     LoginBound_261,51,554,102..png
     '每日初回登入時補給5次日任時會打開任務清單

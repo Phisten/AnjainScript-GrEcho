@@ -320,7 +320,6 @@ _Map1_D1Area = "Map1_D1Area"
 
 Dim RunQuickClear,sLastQC,sLastGetMoney,sLastGetAp,TowerClear
 RunQuickClear = false
-Dim sQuickClear,sGetMoney,sGetAp
 sLastQC = "sLastQC"
 sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
@@ -372,6 +371,8 @@ While true
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
 		DelayRnd 5000,1000
+	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
+		DelayRnd 2000,1000
 	'BattleEnd or other result
 	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then 
     	DelayRnd 3000, 100
@@ -382,8 +383,11 @@ While true
 	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then 
 	
     'Login
-	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then 
+	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then
+	 	TowerClear = false
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
+	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
+	 	TowerClear = false
 
 	'--------------------------------------
     'QuickMenu Get AP/Money
@@ -392,13 +396,14 @@ While true
     'QuickClear ------------------------------------------------------
     'OpenMenu
     'QuickTimer - OpenMenu
-    ElseIf (RunQuickClear Or isTimeOver(sQuickClear,60*60000)) And _
+    ElseIf (RunQuickClear Or isTimeOver(sLastQC,60*60000)) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000,500
     'MenuHasBeenOpen
     ElseIf RunQuickClear And _
      TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) then
+     	TimerUpdate(sLastQC)
     	TracePrint "Menu Select QuestBoard"
         DelayRnd 1000,100
     	TapXy(297,433)
@@ -466,7 +471,8 @@ Function SubScript_QuestBoard()
     SubScript_QuestBoard = true
     'Select QuestBoard
     If false then
-    ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) then
+    ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
+
         If TowerClear = False then
             TracePrint "QuestBoard Select Tower"
             TapXy(868,354)
