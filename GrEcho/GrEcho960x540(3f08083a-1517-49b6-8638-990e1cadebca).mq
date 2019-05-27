@@ -335,23 +335,19 @@ ContinuQC = False
 
 Function TestFunc()
     Dim tmp1
-    
     tmp1 = "Test"
-    DelayRnd 500, 500
-    TimerUpdate (tmp1)
     
     
+    
+    '-----------------------------
     Rem TestStart
+    '-----------------------------
     
-    TracePrint Timer[tmp1]
     
-    TracePrint isTimeOver(tmp1,10000)
-
-	'PartyNote
-
-
+    
 
     Delay 2000
+    '-----------------------------
     Goto TestStart
     EndScript
 End Function
@@ -391,7 +387,8 @@ While true
 
 	'--------------------------------------
     'QuickMenu Get AP/Money
-    ElseIf SubScript_GetMoneyAP() then
+    ElseIf SubScript_GetMoney() then
+    ElseIf SubScript_GetAp() then
 
     'QuickClear ------------------------------------------------------
     'OpenMenu
@@ -451,19 +448,26 @@ Function PartyNote()
 	End If
 End Function
 
-Function SubScript_GetMoneyAP()
-    SubScript_GetMoneyAP = true
-    if false then
-    ElseIf isTimeOver(sLastGetMoney,16*60000) And _  
-    find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
+Function SubScript_GetMoney()
+    SubScript_GetMoney = true
+    If isTimeOver(sLastGetMoney,16*60000) And _  
+     find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
         TimerUpdate(sLastGetMoney)
-        DelayRnd 8000,2000
-    ElseIf isTimeOver(sLastGetAp,10*60000) And _  
-    find({pic:"Hud_GetAp_883,402,914,431..png"}) then
+		TracePrint "GetMoney"
+        DelayRnd 8000, 2000
+    Else
+        SubScript_GetMoney = false
+    End if
+End Function
+Function SubScript_GetAP()
+    SubScript_GetAP = true
+    If isTimeOver(sLastGetAp,10*60000) And _  
+     find({pic:"Hud_GetAp_883,402,914,431..png"}) then
         TimerUpdate(sLastGetAp)
+		TracePrint "GetAp"
         DelayRnd 8000,2000
     Else
-        SubScript_GetMoneyAP = false
+        SubScript_GetAP = false
     End if
 End Function
 
