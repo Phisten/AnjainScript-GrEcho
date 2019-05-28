@@ -416,7 +416,7 @@ While true
 		If BattleStat = sInBattle Then 
 			BattleCount = BattleCount + 1
 			BattleStat = sBattleEnd
-			Msg("BattleCount:" & BattleCount & ",btl/min:" & BattleCount/Round(TickCount()/60000,1),5000,sMsgPos_MapDown)
+			Msg("BattleCount:" & BattleCount & ",btl/min:" & Round(BattleCount/(TickCount()/60000),2),5000,sMsgPos_MapDown)
 		End If
     	DelayRnd 3000, 100
 	
