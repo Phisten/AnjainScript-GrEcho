@@ -58,6 +58,8 @@
 '戰鬥
     '戰鬥中的暫停按鈕
     Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"})
+    '戰鬥結束的經驗值列表
+    BattleEnd_ResultExp_877,277,896,297..png
     '戰鬥報酬領取清單的標題
     BattleResult_300,65,369,71..png
     Battle_PauseContinueBtn_559,309,619,342

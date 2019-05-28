@@ -408,9 +408,10 @@ While true
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
 		BattleStat = sInBattle
-		DelayRnd 5000,1000
+		DelayRnd 5000, 1000
 	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
-		DelayRnd 2000,1000
+		DelayRnd 2000, 1000
+	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
 	'BattleEnd or other result
 	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then
 		If BattleStat = sInBattle Then 
@@ -444,23 +445,24 @@ While true
     'QuickClear ------------------------------------------------------
     'OpenMenu
     'QuickTimer - OpenMenu
-    ElseIf (RunQuickClear Or isTimeOver(sLastQC,60*60000)) And _
+    ElseIf (RunQuickClear Or isTimeOver(sLastQC,55*60000)) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000,500
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
-    	If RunQuickClear then
-     		TimerUpdate(sLastQC)
-    		TracePrint "Menu Select QuestBoard"
-        	DelayRnd 1000,100
-    		TapXy(297,433)
-        	DelayRnd 1000, 100
-        ElseIf isTimeOver(sClearNote,120*60000) then
+    	If False then
+        ElseIf isTimeOver(sClearNote,105*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
     		TapXy(203,430)
+        	DelayRnd 1000, 100
+    	ElseIf RunQuickClear then
+     		TimerUpdate(sLastQC)
+    		TracePrint "Menu Select QuestBoard"
+        	DelayRnd 1000,100
+    		TapXy(297,433)
         	DelayRnd 1000, 100
         ElseIf Timer[sMenuOpen] = null Then
         	TimerUpdate(sMenuOpen)
@@ -616,7 +618,7 @@ Sub NavWPConfig_Map1_D1Area
     Dim NavWpStruct
 	NavWpStruct = Array(	_
 MoveDown,	1000,	100,	_
-MoveDown,	700,	100,	_
+MoveDown,	600,	100,	_
 MoveLeft,	200,	100,	_
 MoveRight,	200,	100,	_
 MoveRight,	200,	100,	_
