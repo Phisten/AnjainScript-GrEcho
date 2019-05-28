@@ -360,8 +360,11 @@ RunQuickClear = false
 TowerClear = false
 ContinuQC = False
 
-
-
+Dim BattleCount,BattleStat,sBattleEnd,sInBattle
+BattleCount = 0
+BattleStat = null
+sBattleEnd = "sBattleEnd"
+sInBattle = "sInBattle"
 
 Dim sMsgPos_MapDown
 sMsgPos_MapDown = "784,184"
@@ -404,11 +407,17 @@ While true
 	If False Then
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
+		BattleStat = sInBattle
 		DelayRnd 5000,1000
 	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
 		DelayRnd 2000,1000
 	'BattleEnd or other result
-	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then 
+	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then
+		If BattleStat = sInBattle Then 
+			BattleCount = BattleCount + 1
+			BattleStat = sBattleEnd
+			Msg("BattleCount:" & BattleCount & ",btl/min:" & BattleCount/Round(TickCount()/60000,1),5000,sMsgPos_MapDown)
+		End If
     	DelayRnd 3000, 100
 	
 	'globol
