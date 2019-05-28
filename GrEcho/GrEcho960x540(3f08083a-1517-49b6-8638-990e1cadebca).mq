@@ -410,8 +410,19 @@ While true
 		BattleStat = sInBattle
 	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
 		DelayRnd 2000, 1000
-	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
 	'BattleEnd or other result
+	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
+		If BattleStat = sInBattle Then 
+			BattleCount = BattleCount + 1
+			BattleStat = sBattleEnd
+			Msg("BattleCount:" & BattleCount & ",btl/min:" & Round(BattleCount/(TickCount()/60000),2),5000,sMsgPos_MapDown)
+		End If
+		DelayRnd 600, 100
+		TapIfFind
+		DelayRnd 300, 100
+		TapIfFind
+		DelayRnd 300, 100
+		TapIfFind
 	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then
 		If BattleStat = sInBattle Then 
 			BattleCount = BattleCount + 1
@@ -630,7 +641,8 @@ MoveUp,		300,	100,	_
 MoveLeft,	200,	100,	_
 MoveRight,	200,	100,	_
 MoveUp,		1300,	100,	_
-MoveRight,	500,	100,	_
+sMoveC05,	600,	100,	_
+sMoveC01,	600,	100,	_
 sNone,		0,		0		)
 
 	NavWpStructConfig(NavWpStruct)
