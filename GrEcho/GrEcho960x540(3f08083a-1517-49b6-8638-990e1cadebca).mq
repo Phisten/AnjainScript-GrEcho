@@ -326,6 +326,7 @@ End Function
 
 Dim NavWp(),NavWpTime(),NavWpDelay(),NavWpCount,NavWpIndex
 Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
+Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
 
@@ -339,28 +340,31 @@ Dim _Map1_D1Area
 _Map1_D1Area = "Map1_D1Area"
 
 
-
-Dim RunQuickClear,sCurLoopTime,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
-RunQuickClear = false
+'Timer -------------------------------------------------------------
+Dim sCurLoopTime,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
+Dim sMenuOpen
 sCurLoopTime = "sCurLoopTime"
 sLastQC = "sLastQC"
 sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
 sClearNote = "sClearNote"
+sMenuOpen = "sMenuOpen"
 TimerUpdate(sLastQC)
 TimerUpdate(sLastGetMoney)
 TimerUpdate(sLastGetAp)
 TimerUpdate(sClearNote)
 
-
-Dim TowerClear
+'stats flag ---------------------------------------------------------
+Dim RunQuickClear,TowerClear,ContinuQC
+RunQuickClear = false
 TowerClear = false
-Dim ContinuQC
 ContinuQC = False
 
-Dim sMenuOpen
-sMenuOpen = "sMenuOpen"
-
+Dim BattleCount,BattleStat,sBattleEnd,sInBattle
+BattleCount = 0
+BattleStat = null
+sBattleEnd = "sBattleEnd"
+sInBattle = "sInBattle"
 
 Dim sMsgPos_MapDown
 sMsgPos_MapDown = "784,184"
@@ -403,11 +407,17 @@ While true
 	If False Then
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
+		BattleStat = sInBattle
 		DelayRnd 5000,1000
 	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
 		DelayRnd 2000,1000
 	'BattleEnd or other result
-	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then 
+	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then
+		If BattleStat = sInBattle Then 
+			BattleCount = BattleCount + 1
+			BattleStat = sBattleEnd
+			Msg("BattleCount:" & BattleCount & ",btl/min:" & Round(BattleCount/(TickCount()/60000),2),5000,sMsgPos_MapDown)
+		End If
     	DelayRnd 3000, 100
 	
 	'globol
@@ -463,7 +473,7 @@ While true
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then 
     	MapTravel (_Map1_D1Area)
-    ElseIf NavMode = _WayPoint And isHudOn() Then 
+    ElseIf NavMode = _WayPoint And isHudOn() And isHudMapPlayerHasFound() Then 
     	If NavWpRun() = False Then 
             'Nav End   reStart Nav
     		NavPlan_Map1_D1Area 
@@ -473,13 +483,13 @@ While true
     	End If
 	'nav end -----------------
 
-	
-    
-	End If
+
+    End If
 
     Rem EndLoop
     
     DelayRnd -GetTimerInterval(sCurLoopTime,CommonDelay), CommonDelayRnd
+    'DelayRnd CommonDelay, CommonDelayRnd
     Rem EndLoopWithOutDelay
     ReleaseCapture
 Wend
@@ -603,50 +613,90 @@ Sub NavPlan_Map1_D1Area
 End Sub
 
 Sub NavWPConfig_Map1_D1Area
-    '190527_rV4
-	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveLeft,MoveRight,MoveUp,MoveRight)
-    NavWpTime = Array(1000,700,200,200,200,1000,300,1800,300,200,200,1200,500)
-    NavWpDelay = Array(100,100,50,50,50,100,100,100,100,50,50,100,100)
-    NavWpCount = 13
-    NavWpIndex = 0
+    Dim NavWpStruct
+	NavWpStruct = Array(	_
+MoveDown,	1000,	100,	_
+MoveDown,	700,	100,	_
+MoveLeft,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveRD,		1000,	100,	_
+MoveDown,	200,	100,	_
+MoveUp,		200,	100,	_
+MoveRight,	300,	100,	_
+MoveRight,	1900,	100,	_
+MoveUp,		300,	100,	_
+MoveLeft,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveUp,		1300,	100,	_
+MoveRight,	500,	100,	_
+sNone,		0,		0		)
+
+	NavWpStructConfig(NavWpStruct)
 End Sub
-Sub NavWPConfig_Map1_D1Area_190527_rV3
+
+Sub NavWPConfig_ClockTest
+    Dim NavWpStruct
+	NavWpStruct = Array(	_
+sMoveC01,	1000,	1000,	_
+sMoveC02,	1000,	1000,	_
+sMoveC03,	1000,	1000,	_
+sMoveC04,	1000,	1000,	_
+sMoveC05,	1000,	1000,	_
+sMoveC06,	1000,	1000,	_
+sMoveC07,	1000,	1000,	_
+sMoveC08,	1000,	1000,	_
+sMoveC09,	1000,	1000,	_
+sMoveC10,	1000,	1000,	_
+sMoveC11,	1000,	1000,	_
+sMoveC12,	1000,	1000,	_
+sNone,		0,		0		)
+
+	NavWpStructConfig(NavWpStruct)
+End Sub
+
+
+Sub NavWPConfig_Map1_D1Area_RV3
     '190527_rV3
-   	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
+	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
     NavWpTime = Array(1000,700,200,200,200,1000,300,1800,1500,500)
     NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
     NavWpCount = 10
     NavWpIndex = 0
 End Sub
-Sub NavWPConfig_Map1_D1Area_190527_rV2
-    '190527_rV2
-    NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
-    NavWpTime = Array(1000,700,200,200,200,1000,1500,1000,1500,500)
-    NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
-    NavWpCount = 10
-    NavWpIndex = 0
-End Sub
-Sub NavWPConfig_Map1_D1Area_src
-	'190525_pV1
-    NavWp = Array(MoveDown,MoveRD,MoveRight,MoveRU,MoveUp,MoveLeft,MoveLeft)
-    NavWpTime = Array(2000,2000,2000,2000,1500,1500,3000)
-    NavWpDelay = Array(500,500,500,500,500,500,500)
-    NavWpCount = 7
-    NavWpIndex = 0
-End Sub
 
 '-----------------------------------------------------------------------------------------
 'nav plan And Player control
+
+Function NavWpStructConfig(navWpStruct)
+	Dim navWpStructCount
+	navWpStructCount = Ubound(navWpStruct) + 1
+	TracePrint "Load NavWpStructConfig WpCount: " & navWpStructCount
+    NavWpCount = navWpStructCount / 3
+    NavWpIndex = 0
+    TracePrint "-----------------NavWpCount" & NavWpCount
+    
+	Dim j
+	For i = 0 To NavWpCount-1
+		j = i*3
+		NavWp(i) = navWpStruct(j)
+    	NavWpTime(i) = navWpStruct(j+1)
+    	NavWpDelay(i) = navWpStruct(j+2)
+	Next
+End Function
+
 Function NavWpRun
-	NavWpRun = true 
-	If NavWpIndex < NavWpCount And TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) Then 
-		Msg("WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex) ,NavWpDelay(NavWpIndex)+CommonDelay,sMsgPos_MapDown)
+	NavWpRun = true
+	If NavWpIndex <= NavWpCount Then 
+		Msg "WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex), NavWpDelay(NavWpIndex), sMsgPos_MapDown
 		PlayerMove(NavWp(NavWpIndex),NavWpTime(NavWpIndex))
         Delay NavWpDelay(NavWpIndex)
-		NavWpIndex = NavWpIndex + 1
+        NavWpIndex = NavWpIndex + 1
 	Else 
 		NavWpRun = false
-	End if
+    	NavWpCount = 0
+    	NavWpIndex = 0
+	End If
 End Function
 Function MapTravel(mapTravelTarget)
     TracePrint _MapTravel & " : " & _Map1_D1Area
@@ -685,7 +735,20 @@ Sub PlayerControlInit()
     MoveLU="MoveLU"
     MoveRU="MoveRU"
     MoveLD="MoveLD"
-    MoveRD="MoveRD"
+    MoveRD = "MoveRD"
+    sMoveC12="sMoveC12"
+	sMoveC01="sMoveC01"
+	sMoveC02="sMoveC02"
+	sMoveC03="sMoveC03"
+	sMoveC04="sMoveC04"
+	sMoveC05="sMoveC05"
+	sMoveC06="sMoveC06"
+	sMoveC07="sMoveC07"
+	sMoveC08="sMoveC08"
+	sMoveC09="sMoveC09"
+	sMoveC10="sMoveC10"
+	sMoveC11="sMoveC11"
+    sNone = "sNone"
 End Sub
 Function PlayerMove(moveDirect,KeepTime)
     Dim CenterX,CenterY,SwipeTargetX,SwipeTargetY
@@ -714,6 +777,38 @@ Function PlayerMove(moveDirect,KeepTime)
     Case MoveRD
         SwipeTargetY = SwipeTargetY + 200
         SwipeTargetX = SwipeTargetX + 200
+    Case sMoveC01
+        SwipeTargetX = SwipeTargetX + 108
+        SwipeTargetY = SwipeTargetY - 180
+    Case sMoveC02
+        SwipeTargetX = SwipeTargetX + 184
+        SwipeTargetY = SwipeTargetY - 104
+    Case sMoveC04
+        SwipeTargetX = SwipeTargetX + 180
+        SwipeTargetY = SwipeTargetY + 108
+    Case sMoveC05
+        SwipeTargetX = SwipeTargetX + 108
+        SwipeTargetY = SwipeTargetY + 180
+    Case sMoveC07
+        SwipeTargetX = SwipeTargetX - 104
+        SwipeTargetY = SwipeTargetY + 184
+    Case sMoveC08
+        SwipeTargetX = SwipeTargetX - 180
+        SwipeTargetY = SwipeTargetY + 108
+    Case sMoveC10
+        SwipeTargetX = SwipeTargetX - 184
+        SwipeTargetY = SwipeTargetY - 104
+    Case sMoveC11
+        SwipeTargetX = SwipeTargetX - 100
+        SwipeTargetY = SwipeTargetY - 180
+    Case sMoveC03
+        SwipeTargetX = SwipeTargetX + 200
+    Case sMoveC06
+        SwipeTargetY = SwipeTargetY + 200
+    Case sMoveC09
+        SwipeTargetX = SwipeTargetX - 200
+    Case sMoveC12
+        SwipeTargetY = SwipeTargetY - 200
     End Select
     TracePrint "Player Move : " & moveDirect & " , Ms:" & KeepTime
 	SwipeAB(CenterX,CenterY, SwipeTargetX, SwipeTargetY, KeepTime)
@@ -732,5 +827,12 @@ Function isHudOn()
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
+	End If
+End Function
+Function isHudMapPlayerHasFound()
+	isHudMapPlayerHasFound = true
+	If TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) then
+	Else
+		isHudMapPlayerHasFound = False
 	End If
 End Function
