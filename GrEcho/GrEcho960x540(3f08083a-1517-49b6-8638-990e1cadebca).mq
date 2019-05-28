@@ -464,7 +464,7 @@ While true
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then 
     	MapTravel (_Map1_D1Area)
-    ElseIf NavMode = _WayPoint And isHudOn() Then 
+    ElseIf NavMode = _WayPoint And isHudOn() And isHudMapPlayerHasFound() Then 
     	If NavWpRun() = False Then 
             'Nav End   reStart Nav
     		NavPlan_Map1_D1Area 
@@ -474,9 +474,8 @@ While true
     	End If
 	'nav end -----------------
 
-	
-    
-	End If
+
+    End If
 
     Rem EndLoop
     
@@ -648,28 +647,18 @@ Function NavWpStructConfig(navWpStruct)
     NavWpIndex = 0
     TracePrint "-----------------NavWpCount" & NavWpCount
     
-//    Dim tmpArr1(),tmpArr2(),tmpArr3()
 	Dim j
-//	For i = 1 To NavWpCount
-//		j = i*3 - 2
-//		tmpArr1[i] = navWpStruct[j]
-//    	tmpArr2[i] = navWpStruct[j+1]
-//    	tmpArr3[i] = navWpStruct[j+2]
-//	Next
 	For i = 0 To NavWpCount-1
 		j = i*3
 		NavWp(i) = navWpStruct(j)
     	NavWpTime(i) = navWpStruct(j+1)
     	NavWpDelay(i) = navWpStruct(j+2)
 	Next
-//    NavWp = tmpArr1
-//    NavWpTime = tmpArr2
-//    NavWpDelay = tmpArr3
 End Function
 
 Function NavWpRun
-	NavWpRun = true 
-	If NavWpIndex <= NavWpCount And TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) Then 
+	NavWpRun = true
+	If NavWpIndex <= NavWpCount Then 
 		Msg "WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex), NavWpDelay(NavWpIndex), sMsgPos_MapDown
 		PlayerMove(NavWp(NavWpIndex),NavWpTime(NavWpIndex))
         Delay NavWpDelay(NavWpIndex)
@@ -678,7 +667,7 @@ Function NavWpRun
 		NavWpRun = false
     	NavWpCount = 0
     	NavWpIndex = 0
-	End if
+	End If
 End Function
 Function MapTravel(mapTravelTarget)
     TracePrint _MapTravel & " : " & _Map1_D1Area
@@ -777,5 +766,12 @@ Function isHudOn()
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
+	End If
+End Function
+Function isHudMapPlayerHasFound()
+	isHudMapPlayerHasFound = true
+	If TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) then
+	Else
+		isHudMapPlayerHasFound = False
 	End If
 End Function
