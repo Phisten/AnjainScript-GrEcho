@@ -425,7 +425,7 @@ While true
 	'--------------------------------------
     'QuickMenu Get AP/Money
     ElseIf SubScript_GetMoney() then
-    ElseIf SubScript_GetAp() Then
+    'ElseIf SubScript_GetAp() Then
     
     ElseIf SubScript_PartyNote() then
 
