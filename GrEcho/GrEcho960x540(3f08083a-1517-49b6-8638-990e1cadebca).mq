@@ -595,8 +595,16 @@ Sub NavPlan_Map1_D1Area
 End Sub
 
 Sub NavWPConfig_Map1_D1Area
+    '190527_rV4
+	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveLeft,MoveRight,MoveUp,MoveRight)
+    NavWpTime = Array(1000,700,200,200,200,1000,300,1800,300,200,200,1200,500)
+    NavWpDelay = Array(100,100,50,50,50,100,100,100,100,50,50,100,100)
+    NavWpCount = 13
+    NavWpIndex = 0
+End Sub
+Sub NavWPConfig_Map1_D1Area_190527_rV3
     '190527_rV3
-	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
+   	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
     NavWpTime = Array(1000,700,200,200,200,1000,300,1800,1500,500)
     NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
     NavWpCount = 10
