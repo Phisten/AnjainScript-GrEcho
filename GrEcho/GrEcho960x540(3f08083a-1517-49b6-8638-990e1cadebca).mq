@@ -408,7 +408,6 @@ While true
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
 		BattleStat = sInBattle
-		DelayRnd 5000, 1000
 	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
 		DelayRnd 2000, 1000
 	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
