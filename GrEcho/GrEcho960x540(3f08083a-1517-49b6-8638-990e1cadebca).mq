@@ -664,18 +664,18 @@ sMoveC10,	1000,	1000,	_
 sMoveC11,	1000,	1000,	_
 sMoveC12,	1000,	1000,	_
 sNone,		0,		0		)
-
 	NavWpStructConfig(NavWpStruct)
-End Sub
+'todo: 
+'sMapTravel sNavEnd  sGotoIndex  sRevertMove sRepeatMove sMoveIfFindTarget
+ '   Dim BattleEndGoto
+ '   BattleEndGoto = Array(	_
+'minIdx, maxIdx flag        value  cmd         value  
+'2,	     5,	    sTraBtl,    2,     sGotoIdx,    12	_
+'               sTolBtl            sNavEnd
+'              sInRangeBtl
+'              
+')
 
-
-Sub NavWPConfig_Map1_D1Area_RV3
-    '190527_rV3
-	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
-    NavWpTime = Array(1000,700,200,200,200,1000,300,1800,1500,500)
-    NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
-    NavWpCount = 10
-    NavWpIndex = 0
 End Sub
 
 '-----------------------------------------------------------------------------------------
