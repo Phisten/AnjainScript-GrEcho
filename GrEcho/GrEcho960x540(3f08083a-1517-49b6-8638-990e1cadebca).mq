@@ -29,7 +29,7 @@ Function TimerUpdate(timerName)
 	TimerUpdate = Timer[timerName]
 End Function
 Function GetTimerInterval(timerName, intervalMs)
-	GetTimerInterval = TickCount() - Timer[timerName]
+	GetTimerInterval = (TickCount() - Timer[timerName]) - intervalMs
 End Function
 Function isTimeOver(timerName, intervalMs)
 	isTimeOver = TickCount() - Timer[timerName] > intervalMs
@@ -340,8 +340,9 @@ _Map1_D1Area = "Map1_D1Area"
 
 
 
-Dim RunQuickClear,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
+Dim RunQuickClear,sCurLoopTime,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
 RunQuickClear = false
+sCurLoopTime = "sCurLoopTime"
 sLastQC = "sLastQC"
 sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
@@ -386,7 +387,7 @@ Function TestFunc()
 End Function
 
 Dim CommonDelay,CommonDelayRnd
-CommonDelay = 1200
+CommonDelay = 800
 CommonDelayRnd = 100
 
 NavPlan_Map1_D1Area 
@@ -396,7 +397,8 @@ While true
     
 	'NavMode = _WayPoint
 	'-----------------------------
-	KeepCapture
+	TimerUpdate(sCurLoopTime)
+	KeepCapture 
     
 	If False Then
 	'Battle
@@ -464,7 +466,10 @@ While true
     ElseIf NavMode = _WayPoint And isHudOn() Then 
     	If NavWpRun() = False Then 
             'Nav End   reStart Nav
-    		NavPlan_Map1_D1Area()
+    		NavPlan_Map1_D1Area 
+    	Else 
+    		'DelayRnd 100,100
+    		Goto EndLoopWithOutDelay
     	End If
 	'nav end -----------------
 
@@ -473,7 +478,8 @@ While true
 	End If
 
     Rem EndLoop
-    DelayRnd CommonDelay, CommonDelayRnd
+    
+    DelayRnd -GetTimerInterval(sCurLoopTime,CommonDelay), CommonDelayRnd
     Rem EndLoopWithOutDelay
     ReleaseCapture
 Wend
@@ -560,6 +566,8 @@ Function SubScript_QuestBoard()
         If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
         	RunQuickClear = true
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
+        	ElseIf Find({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
+        		TracePrint "hokora"
         	ElseIf TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then
         		TracePrint "hokora"
             	TapXy(517,174)
