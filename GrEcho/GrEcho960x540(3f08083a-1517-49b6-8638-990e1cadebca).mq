@@ -9,6 +9,7 @@
 '1.2.3  TryFind() = find() TapMode:DoNothing
 '		Timer Table(  TimerUpdate(),GetTimerInterval(),isTimeOver() )
 '		"s"var  const string / table enum index
+'		MsgXy(),Msg()
 
 Randomize
 Dim intX,intY,targetX,targetY,targetX2,targetY2
@@ -291,6 +292,27 @@ Sub PrintIfFind(msgStr)
         TracePrint msgStr
     End If
 End Sub
+Sub Msg(msgStr, showMs, posStrXY)
+	Dim posX,posY,ArrTemp
+    If posStrXY <> null Then 
+        ArrTemp = SplitComma(posStrXY)
+        If UBound(ArrTemp) = 1 Then 
+        	posX = ArrTemp(0)
+        	posY = ArrTemp(1)
+       	End If
+    End If
+    
+    If posY <> null Then 
+		ShowMessage msgStr, showMs, posX, posY
+	else
+		ShowMessage msgStr, showMs
+    End If
+	TracePrint msgStr
+End Sub
+Sub MsgXy(msgStr,showMs,posX,posY)
+	ShowMessage msgStr, showMs, posX, posY
+	TracePrint msgStr
+End Sub
 Sub DelayRnd(BaseDelay,RndDelay)
     Delay BaseDelay + RndDelay*Rnd()
 End Sub
@@ -301,7 +323,6 @@ End Function
 
 '-----------------------------------------------------------------------------------------
 // Main Loop
-Dim curLoopTick
 
 Dim NavWp(),NavWpTime(),NavWpDelay(),NavWpCount,NavWpIndex
 Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
@@ -311,7 +332,8 @@ PlayerControlInit()
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
 _MapTravel = "MapTravel"
 _WayPoint = "WayPoint"
-
+Dim MapTravelCount
+MapTravelCount = 0
 
 Dim _Map1_D1Area
 _Map1_D1Area = "Map1_D1Area"
@@ -325,12 +347,18 @@ sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
 TimerUpdate(sLastQC)
 TimerUpdate(sLastGetMoney)
-TimerUpdate(sLastGetAp)
-
+TimerUpdate (sLastGetAp)
 
 TowerClear = false
 Dim ContinuQC
 ContinuQC = False
+
+Dim sMenuOpen
+sMenuOpen = "sMenuOpen"
+
+
+Dim sMsgPos_MapDown
+sMsgPos_MapDown = "784,184"
 
 
 Function TestFunc()
@@ -343,6 +371,7 @@ Function TestFunc()
     Rem TestStart
     '-----------------------------
     
+    ' "914D67-111111|6CFDFF-222222|862369-111111"
     
     
 
@@ -352,8 +381,11 @@ Function TestFunc()
     EndScript
 End Function
 
-NavPlan_Map1_D1Area 
+Dim CommonDelay,CommonDelayRnd
+CommonDelay = 1200
+CommonDelayRnd = 100
 
+NavPlan_Map1_D1Area 
 While true
 	'debug------------------------
     'TestFunc()
@@ -361,7 +393,6 @@ While true
 	'NavMode = _WayPoint
 	'-----------------------------
 	KeepCapture
-    curLoopTick = TickCount()
     
 	If False Then
 	'Battle
@@ -398,13 +429,19 @@ While true
         RunQuickClear = True
         DelayRnd 2000,500
     'MenuHasBeenOpen
-    ElseIf RunQuickClear And _
-     TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) then
-     	TimerUpdate(sLastQC)
-    	TracePrint "Menu Select QuestBoard"
-        DelayRnd 1000,100
-    	TapXy(297,433)
-        DelayRnd 1000,100
+    ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
+    	If RunQuickClear then
+     		TimerUpdate(sLastQC)
+    		TracePrint "Menu Select QuestBoard"
+        	DelayRnd 1000,100
+    		TapXy(297,433)
+        	DelayRnd 1000, 100
+        ElseIf Timer[sMenuOpen] = null Then
+        	TimerUpdate(sMenuOpen)
+        ElseIf isTimeOver(sMenuOpen, 7000) Then
+        	Find ({pic:"Hud_MenuOffBtn_896,485,924,509..png"})
+        	Timer[sMenuOpen] = null
+        End If
     ElseIf SubScript_QuestBoard() then
 
     'Nav  -----------------  
@@ -415,14 +452,14 @@ While true
             'Nav End   reStart Nav
     		NavPlan_Map1_D1Area()
     	End If
-	'nav end -----------------    
+	'nav end -----------------
 
 	
     
 	End If
 
     Rem EndLoop
-    DelayRnd 1200, 200
+    DelayRnd CommonDelay, CommonDelayRnd
     Rem EndLoopWithOutDelay
     ReleaseCapture
 Wend
@@ -506,7 +543,7 @@ Function SubScript_QuestBoard()
         If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
         	RunQuickClear = true
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
-        	ElseIf TryFind({color:"DDFDFF", findRect:"786,466"}) Then
+        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then
         		TracePrint "hokora"
             	TapXy(517,174)
         	Else 
@@ -539,7 +576,25 @@ Sub NavPlan_Map1_D1Area
 	NavMode = _MapTravel
 	NavWPConfig_Map1_D1Area 
 End Sub
+
 Sub NavWPConfig_Map1_D1Area
+    '190527_rV3
+	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
+    NavWpTime = Array(1000,700,200,200,200,1000,300,1800,1500,500)
+    NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
+    NavWpCount = 10
+    NavWpIndex = 0
+End Sub
+Sub NavWPConfig_Map1_D1Area_190527_rV2
+    '190527_rV2
+    NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
+    NavWpTime = Array(1000,700,200,200,200,1000,1500,1000,1500,500)
+    NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
+    NavWpCount = 10
+    NavWpIndex = 0
+End Sub
+Sub NavWPConfig_Map1_D1Area_src
+	'190525_pV1
     NavWp = Array(MoveDown,MoveRD,MoveRight,MoveRU,MoveUp,MoveLeft,MoveLeft)
     NavWpTime = Array(2000,2000,2000,2000,1500,1500,3000)
     NavWpDelay = Array(500,500,500,500,500,500,500)
@@ -551,7 +606,8 @@ End Sub
 'nav plan And Player control
 Function NavWpRun
 	NavWpRun = true 
-	If NavWpIndex < NavWpCount And TryFind({color:"0EB624",findRect:"842,86,868,112",fuzzyRate:0.9}) then
+	If NavWpIndex < NavWpCount And TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) Then 
+		Msg("WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex) ,NavWpDelay(NavWpIndex)+CommonDelay,sMsgPos_MapDown)
 		PlayerMove(NavWp(NavWpIndex),NavWpTime(NavWpIndex))
         Delay NavWpDelay(NavWpIndex)
 		NavWpIndex = NavWpIndex + 1
@@ -570,7 +626,10 @@ Function MapTravel(mapTravelTarget)
 		Dim travelTargetPic
 		travelTargetPic = "MapTravel_" & mapTravelTarget & "..png"
 		
-		find ({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"245,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9})
+		If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"245,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    		TracePrint "MapTravel Succ"
+    		MapTravelCount=MapTravelCount+1
+		End If
 		DelayRnd 500, 100
 
 	ElseIf find({pic:"MapCloseBtnBG_836,39,862,63..png", tapMode:DoNothing}) Then 
@@ -581,6 +640,7 @@ Function MapTravel(mapTravelTarget)
 	Else 
 		TracePrint "MapTravel Nothing Found"
 	End If
+	ShowMessage "Run:"& Round(TickCount()/60000,2) & "m" & "NavCount:" & MapTravelCount , 500
 End Function
 
 
