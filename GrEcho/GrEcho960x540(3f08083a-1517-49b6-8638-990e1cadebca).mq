@@ -326,6 +326,7 @@ End Function
 
 Dim NavWp(),NavWpTime(),NavWpDelay(),NavWpCount,NavWpIndex
 Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
+Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
 
@@ -480,6 +481,7 @@ While true
     Rem EndLoop
     
     DelayRnd -GetTimerInterval(sCurLoopTime,CommonDelay), CommonDelayRnd
+    'DelayRnd CommonDelay, CommonDelayRnd
     Rem EndLoopWithOutDelay
     ReleaseCapture
 Wend
@@ -603,6 +605,30 @@ Sub NavPlan_Map1_D1Area
 End Sub
 
 Sub NavWPConfig_Map1_D1Area
+    Dim NavWpStruct
+	NavWpStruct = Array(	_
+MoveDown,	1000,	100,	_
+MoveDown,	700,	100,	_
+MoveLeft,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveRD,		1000,	100,	_
+MoveDown,	200,	100,	_
+MoveUp,		200,	100,	_
+MoveRight,	300,	100,	_
+MoveRight,	1800,	100,	_
+MoveUp,		300,	100,	_
+MoveLeft,	200,	100,	_
+MoveRight,	200,	100,	_
+MoveUp,		1300,	100,	_
+MoveRight,	500,	100,	_
+sNone,		0,		0		)
+
+	NavWpStructConfig(NavWpStruct)
+End Sub
+
+
+Sub NavWPConfig_Map1_D1Area_RV3
     '190527_rV3
 	NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
     NavWpTime = Array(1000,700,200,200,200,1000,300,1800,1500,500)
@@ -610,34 +636,48 @@ Sub NavWPConfig_Map1_D1Area
     NavWpCount = 10
     NavWpIndex = 0
 End Sub
-Sub NavWPConfig_Map1_D1Area_190527_rV2
-    '190527_rV2
-    NavWp = Array(MoveDown,MoveDown,MoveLeft,MoveRight,MoveRight,MoveRD,MoveRight,MoveRight,MoveUp,MoveRight)
-    NavWpTime = Array(1000,700,200,200,200,1000,1500,1000,1500,500)
-    NavWpDelay = Array(200,200,200,200,200,200,200,200,200,200)
-    NavWpCount = 10
-    NavWpIndex = 0
-End Sub
-Sub NavWPConfig_Map1_D1Area_src
-	'190525_pV1
-    NavWp = Array(MoveDown,MoveRD,MoveRight,MoveRU,MoveUp,MoveLeft,MoveLeft)
-    NavWpTime = Array(2000,2000,2000,2000,1500,1500,3000)
-    NavWpDelay = Array(500,500,500,500,500,500,500)
-    NavWpCount = 7
-    NavWpIndex = 0
-End Sub
 
 '-----------------------------------------------------------------------------------------
 'nav plan And Player control
+
+Function NavWpStructConfig(navWpStruct)
+	Dim navWpStructCount
+	navWpStructCount = Ubound(navWpStruct) + 1
+	TracePrint "Load NavWpStructConfig WpCount: " & navWpStructCount
+    NavWpCount = navWpStructCount / 3
+    NavWpIndex = 0
+    TracePrint "-----------------NavWpCount" & NavWpCount
+    
+//    Dim tmpArr1(),tmpArr2(),tmpArr3()
+	Dim j
+//	For i = 1 To NavWpCount
+//		j = i*3 - 2
+//		tmpArr1[i] = navWpStruct[j]
+//    	tmpArr2[i] = navWpStruct[j+1]
+//    	tmpArr3[i] = navWpStruct[j+2]
+//	Next
+	For i = 0 To NavWpCount-1
+		j = i*3
+		NavWp(i) = navWpStruct(j)
+    	NavWpTime(i) = navWpStruct(j+1)
+    	NavWpDelay(i) = navWpStruct(j+2)
+	Next
+//    NavWp = tmpArr1
+//    NavWpTime = tmpArr2
+//    NavWpDelay = tmpArr3
+End Function
+
 Function NavWpRun
 	NavWpRun = true 
-	If NavWpIndex < NavWpCount And TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) Then 
-		Msg("WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex) ,NavWpDelay(NavWpIndex)+CommonDelay,sMsgPos_MapDown)
+	If NavWpIndex <= NavWpCount And TryFind({color:"0EB624", findRect:"842,86,868,112", fuzzyRate:0.9}) Then 
+		Msg "WpId: " & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex), NavWpDelay(NavWpIndex), sMsgPos_MapDown
 		PlayerMove(NavWp(NavWpIndex),NavWpTime(NavWpIndex))
         Delay NavWpDelay(NavWpIndex)
-		NavWpIndex = NavWpIndex + 1
+        NavWpIndex = NavWpIndex + 1
 	Else 
 		NavWpRun = false
+    	NavWpCount = 0
+    	NavWpIndex = 0
 	End if
 End Function
 Function MapTravel(mapTravelTarget)
@@ -677,7 +717,20 @@ Sub PlayerControlInit()
     MoveLU="MoveLU"
     MoveRU="MoveRU"
     MoveLD="MoveLD"
-    MoveRD="MoveRD"
+    MoveRD = "MoveRD"
+    sMoveC12="sMoveC12"
+	sMoveC01="sMoveC01"
+	sMoveC02="sMoveC02"
+	sMoveC03="sMoveC03"
+	sMoveC04="sMoveC04"
+	sMoveC05="sMoveC05"
+	sMoveC06="sMoveC06"
+	sMoveC07="sMoveC07"
+	sMoveC08="sMoveC08"
+	sMoveC09="sMoveC09"
+	sMoveC10="sMoveC10"
+	sMoveC11="sMoveC11"
+    sNone = "sNone"
 End Sub
 Function PlayerMove(moveDirect,KeepTime)
     Dim CenterX,CenterY,SwipeTargetX,SwipeTargetY
