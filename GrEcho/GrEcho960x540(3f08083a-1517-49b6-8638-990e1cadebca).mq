@@ -462,11 +462,11 @@ While true
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False then
-        ElseIf isTimeOver(sClearNote,105*60000) then
+        ElseIf isTimeOver(sClearNote,92*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
-    		TapXy(203,430)
+    		TapXy(117,430)
         	DelayRnd 1000, 100
     	ElseIf RunQuickClear then
      		TimerUpdate(sLastQC)
