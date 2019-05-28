@@ -35,6 +35,7 @@
     QuestBoard_Hokora_817,284,889,306..png
         'Hokora_HasEnegry_474,27,558,39..png
         Hokora_HasEnegry2_488,24,507,41..png
+        Hokora_SelectScrollBot_1_304,158,321,187..png
         HokoraQC_624,444,685,465..png
             HokoraQC_Confirm_570,387,640,414..png
 
@@ -44,6 +45,8 @@
     
 
 '全域
+    'AP滿了得確認窗 可能可以通用
+    ApFullOK_468,380,497,419..png
     '每日任務完成時的報酬訊窗
     find({pic:"DailyQuestResult_576,344,671,389..png"})
         '取得寶箱的訊窗
