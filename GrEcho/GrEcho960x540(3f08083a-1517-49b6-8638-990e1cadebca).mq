@@ -340,27 +340,27 @@ Dim _Map1_D1Area
 _Map1_D1Area = "Map1_D1Area"
 
 
-
-Dim RunQuickClear,sCurLoopTime,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
-RunQuickClear = false
+'Timer -------------------------------------------------------------
+Dim sCurLoopTime,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
+Dim sMenuOpen
 sCurLoopTime = "sCurLoopTime"
 sLastQC = "sLastQC"
 sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
 sClearNote = "sClearNote"
+sMenuOpen = "sMenuOpen"
 TimerUpdate(sLastQC)
 TimerUpdate(sLastGetMoney)
 TimerUpdate(sLastGetAp)
 TimerUpdate(sClearNote)
 
-
-Dim TowerClear
+'stats flag ---------------------------------------------------------
+Dim RunQuickClear,TowerClear,ContinuQC
+RunQuickClear = false
 TowerClear = false
-Dim ContinuQC
 ContinuQC = False
 
-Dim sMenuOpen
-sMenuOpen = "sMenuOpen"
+
 
 
 Dim sMsgPos_MapDown
@@ -615,12 +615,32 @@ MoveRD,		1000,	100,	_
 MoveDown,	200,	100,	_
 MoveUp,		200,	100,	_
 MoveRight,	300,	100,	_
-MoveRight,	1800,	100,	_
+MoveRight,	1900,	100,	_
 MoveUp,		300,	100,	_
 MoveLeft,	200,	100,	_
 MoveRight,	200,	100,	_
 MoveUp,		1300,	100,	_
 MoveRight,	500,	100,	_
+sNone,		0,		0		)
+
+	NavWpStructConfig(NavWpStruct)
+End Sub
+
+Sub NavWPConfig_ClockTest
+    Dim NavWpStruct
+	NavWpStruct = Array(	_
+sMoveC01,	1000,	1000,	_
+sMoveC02,	1000,	1000,	_
+sMoveC03,	1000,	1000,	_
+sMoveC04,	1000,	1000,	_
+sMoveC05,	1000,	1000,	_
+sMoveC06,	1000,	1000,	_
+sMoveC07,	1000,	1000,	_
+sMoveC08,	1000,	1000,	_
+sMoveC09,	1000,	1000,	_
+sMoveC10,	1000,	1000,	_
+sMoveC11,	1000,	1000,	_
+sMoveC12,	1000,	1000,	_
 sNone,		0,		0		)
 
 	NavWpStructConfig(NavWpStruct)
@@ -748,6 +768,38 @@ Function PlayerMove(moveDirect,KeepTime)
     Case MoveRD
         SwipeTargetY = SwipeTargetY + 200
         SwipeTargetX = SwipeTargetX + 200
+    Case sMoveC01
+        SwipeTargetX = SwipeTargetX + 108
+        SwipeTargetY = SwipeTargetY - 180
+    Case sMoveC02
+        SwipeTargetX = SwipeTargetX + 184
+        SwipeTargetY = SwipeTargetY - 104
+    Case sMoveC04
+        SwipeTargetX = SwipeTargetX + 180
+        SwipeTargetY = SwipeTargetY + 108
+    Case sMoveC05
+        SwipeTargetX = SwipeTargetX + 108
+        SwipeTargetY = SwipeTargetY + 180
+    Case sMoveC07
+        SwipeTargetX = SwipeTargetX - 104
+        SwipeTargetY = SwipeTargetY + 184
+    Case sMoveC08
+        SwipeTargetX = SwipeTargetX - 180
+        SwipeTargetY = SwipeTargetY + 108
+    Case sMoveC10
+        SwipeTargetX = SwipeTargetX - 184
+        SwipeTargetY = SwipeTargetY - 104
+    Case sMoveC11
+        SwipeTargetX = SwipeTargetX - 100
+        SwipeTargetY = SwipeTargetY - 180
+    Case sMoveC03
+        SwipeTargetX = SwipeTargetX + 200
+    Case sMoveC06
+        SwipeTargetY = SwipeTargetY + 200
+    Case sMoveC09
+        SwipeTargetX = SwipeTargetX - 200
+    Case sMoveC12
+        SwipeTargetY = SwipeTargetY - 200
     End Select
     TracePrint "Player Move : " & moveDirect & " , Ms:" & KeepTime
 	SwipeAB(CenterX,CenterY, SwipeTargetX, SwipeTargetY, KeepTime)
