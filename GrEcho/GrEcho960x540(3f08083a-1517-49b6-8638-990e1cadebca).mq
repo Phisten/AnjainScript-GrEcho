@@ -340,15 +340,19 @@ _Map1_D1Area = "Map1_D1Area"
 
 
 
-Dim RunQuickClear,sLastQC,sLastGetMoney,sLastGetAp,TowerClear
+Dim RunQuickClear,sLastQC,sLastGetMoney,sLastGetAp,sClearNote
 RunQuickClear = false
 sLastQC = "sLastQC"
 sLastGetMoney = "sLastGetMoney"
 sLastGetAp = "sLastGetAp"
+sClearNote = "sClearNote"
 TimerUpdate(sLastQC)
 TimerUpdate(sLastGetMoney)
-TimerUpdate (sLastGetAp)
+TimerUpdate(sLastGetAp)
+TimerUpdate(sClearNote)
 
+
+Dim TowerClear
 TowerClear = false
 Dim ContinuQC
 ContinuQC = False
@@ -407,7 +411,9 @@ While true
 	'globol
 	ElseIf find({pic:"DailyQuestResult_576,344,671,389..png"}) Then 
 	ElseIf find({pic:"GetChest_446,338,518,359..png"}) Then 
-	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then 
+	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then
+	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then 
+	
 	
     'Login
 	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then
@@ -419,7 +425,9 @@ While true
 	'--------------------------------------
     'QuickMenu Get AP/Money
     ElseIf SubScript_GetMoney() then
-    ElseIf SubScript_GetAp() then
+    ElseIf SubScript_GetAp() Then
+    
+    ElseIf SubScript_PartyNote() then
 
     'QuickClear ------------------------------------------------------
     'OpenMenu
@@ -435,6 +443,12 @@ While true
     		TracePrint "Menu Select QuestBoard"
         	DelayRnd 1000,100
     		TapXy(297,433)
+        	DelayRnd 1000, 100
+        ElseIf isTimeOver(sClearNote,120*60000) then
+     		TimerUpdate(sClearNote)
+    		TracePrint "Menu Select Party: Note"
+        	DelayRnd 1000,100
+    		TapXy(203,430)
         	DelayRnd 1000, 100
         ElseIf Timer[sMenuOpen] = null Then
         	TimerUpdate(sMenuOpen)
@@ -469,8 +483,8 @@ EndScript
 '--------------------------------------------------
 
 'Sub script
-Function PartyNote()
-    PartyNote = true
+Function SubScript_PartyNote()
+    SubScript_PartyNote = true
 	If isPartyPage() Then 
 		DelayRnd 500, 100
 		TracePrint "swipe Note Start"
@@ -478,10 +492,13 @@ Function PartyNote()
 			SwipeAB(71,i,868,i,2000)
 			DelayRnd 200, 100
 		Next
+		ShowMessage "Note clear"
 		TracePrint "swipe Note End"
 		DelayRnd 500, 100
+		TapXy 35,21
+		DelayRnd 200, 100
     Else
-        PartyNote = false
+        SubScript_PartyNote = false
 	End If
 End Function
 
