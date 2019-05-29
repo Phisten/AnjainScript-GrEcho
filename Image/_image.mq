@@ -53,7 +53,8 @@
         find({pic:"GetChest_446,338,518,359..png"})
             '拿完寶箱後會跳出寶箱清單
             find({pic:"ChestList_278,207,346,231..png"})
-
+    '關掉公告
+    News_Close_766,48,787,68.png
 
 '戰鬥
     '戰鬥中的暫停按鈕

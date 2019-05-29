@@ -408,8 +408,8 @@ While true
 	'Battle
 	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
 		BattleStat = sInBattle
-	ElseIf Tryfind({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
-		DelayRnd 2000, 1000
+	ElseIf find({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
+		
 	'BattleEnd or other result
 	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
 		If BattleStat = sInBattle Then 
@@ -435,7 +435,8 @@ While true
 	ElseIf find({pic:"DailyQuestResult_576,344,671,389..png"}) Then 
 	ElseIf find({pic:"GetChest_446,338,518,359..png"}) Then 
 	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then
-	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then 
+	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then
+	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
 	
 	
     'Login
