@@ -518,7 +518,9 @@ Function SubScript_PartyNote()
 		DelayRnd 500, 100
 		TracePrint "swipe Note Start"
 		For i = 86 To 329 Step 34
-			SwipeAB(71,i,868,i,2000)
+			If isPartyPage() then
+				SwipeAB 71, i, 868, i, 2000
+			End If
 			DelayRnd 200, 100
 		Next
 		ShowMessage "Note clear"
@@ -723,14 +725,15 @@ Function MapTravel(mapTravelTarget)
 		Dim travelTargetPic
 		travelTargetPic = "MapTravel_" & mapTravelTarget & "..png"
 		
-		If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"245,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+		If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"124,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     		TracePrint "MapTravel Succ"
     		MapTravelCount=MapTravelCount+1
 		End If
 		DelayRnd 500, 100
 
 	ElseIf find({pic:"MapCloseBtnBG_836,39,862,63..png", tapMode:DoNothing}) Then 
-		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then
+		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then 
+			Msg("MapTravel_Confirm",1500,sMsgPos_MapDown)
 			NavMode = _WayPoint
 		End If
 		DelayRnd 2000, 200
