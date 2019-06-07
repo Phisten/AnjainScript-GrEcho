@@ -39,6 +39,14 @@
         HokoraQC_624,444,685,465..png
             HokoraQC_Confirm_570,387,640,414..png
 
+'派遣
+    '派遣依賴完成
+    Dispatch_Clear_310,162,345,193..png
+    ExpResult_337,62,389,79..png
+    '等待派遣的依賴
+    Dispatch_Red_313,160,343,190..png
+    
+
 '隊伍配置
     PartyPage_77,10,271,62..png
     
@@ -55,6 +63,7 @@
             find({pic:"ChestList_278,207,346,231..png"})
     '關掉公告
     News_Close_766,48,787,68.png
+    Result_Touch_531,492,562,513..png
 
 '戰鬥
     '戰鬥中的暫停按鈕
