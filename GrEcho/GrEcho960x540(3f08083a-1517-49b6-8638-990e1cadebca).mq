@@ -579,7 +579,7 @@ Function SubScript_QuestBoard()
     SubScript_QuestBoard = true
     'Select QuestBoard
     If false then
-
+	ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
         If TowerClear = False then
             TracePrint "QuestBoard Select Tower"
             TapXy(868,354)
