@@ -329,6 +329,8 @@ Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
 Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
+Dim tapNoteTime, getGoldTime, getAPTime
+UiInit()
 
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
 _MapTravel = "MapTravel"
@@ -452,7 +454,7 @@ While true
 	'--------------------------------------
     'QuickMenu Get AP/Money
     ElseIf SubScript_GetMoney() then
-    'ElseIf SubScript_GetAp() Then
+    ElseIf SubScript_GetAp() Then
     
     ElseIf SubScript_PartyNote() then
 
@@ -466,7 +468,7 @@ While true
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False then
-        ElseIf isTimeOver(sClearNote,92*60000) then
+        ElseIf tapNoteTime > 0 And isTimeOver(sClearNote,tapNoteTime*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
@@ -533,46 +535,52 @@ End Function
 
 Function SubScript_PartyNote()
     SubScript_PartyNote = true
-	If isPartyPage() Then 
-		DelayRnd 500, 100
-		TracePrint "swipe Note Start"
-		For i = 86 To 300 Step 34
-			If isPartyPage() then
-				SwipeAB 71, i, 868, i, 2000
-			End If
-			DelayRnd 200, 100
-		Next
-		ShowMessage "Note clear"
-		TracePrint "swipe Note End"
-		DelayRnd 500, 100
-		TapXy 35,21
-		DelayRnd 3000, 100
+    If isPartyPage() Then 
+        If tapNoteTime > 0 Then
+            DelayRnd 500, 100
+            TracePrint "swipe Note Start"
+            For i = 86 To 300 Step 34
+                If isPartyPage() then
+                    SwipeAB 71, i, 868, i, 2000
+                End If
+                DelayRnd 200, 100
+            Next
+            ShowMessage "Note clear"
+            TracePrint "swipe Note End"
+            DelayRnd 500, 100
+        End If
+        
+        'Exit PartyPage
+        TapXy 35,21
+        DelayRnd 3000, 100
     Else
         SubScript_PartyNote = false
-	End If
+    End If
 End Function
 
 Function SubScript_GetMoney()
-    SubScript_GetMoney = true
-    If isTimeOver(sLastGetMoney,16*60000) And _  
-     find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
-        TimerUpdate(sLastGetMoney)
-		TracePrint "GetMoney"
-        DelayRnd 8000, 2000
-    Else
-        SubScript_GetMoney = false
-    End if
+    SubScript_GetMoney = false
+	If getGoldTime > 0 Then 
+        If isTimeOver(sLastGetMoney,getGoldTime*60000) And _  
+        find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
+		    SubScript_GetMoney = true
+            TimerUpdate(sLastGetMoney)
+            TracePrint "GetMoney"
+            DelayRnd 8000, 2000
+        End if
+	End If
 End Function
 Function SubScript_GetAP()
-    SubScript_GetAP = true
-    If isTimeOver(sLastGetAp,10*60000) And _  
-     find({pic:"Hud_GetAp_883,402,914,431..png"}) then
-        TimerUpdate(sLastGetAp)
-		TracePrint "GetAp"
-        DelayRnd 8000,2000
-    Else
-        SubScript_GetAP = false
-    End if
+    SubScript_GetAP = false
+    If getAPTime > 0 Then
+        If isTimeOver(sLastGetAp,getAPTime*60000) And _  
+        find({pic:"Hud_GetAp_883,402,914,431..png"}) then
+            SubScript_GetAP = true
+            TimerUpdate(sLastGetAp)
+            TracePrint "GetAp"
+            DelayRnd 8000,2000
+        End if
+    End If
 End Function
 
 Function SubScript_QuestBoard()
@@ -616,7 +624,8 @@ Function SubScript_QuestBoard()
             	TapXy(517,174)
         	Else 
         		TracePrint "hokora Roll scroll"
-            	SwipeAB(581,457,588,192,100)
+//            	SwipeAB(581,457,588,192,100)
+				TapXy 411, 245
         	End if
         Else 
         	TracePrint "hokora last 1 enegry , exit board"
@@ -787,6 +796,19 @@ Sub PlayerControlInit()
 	sMoveC11="sMoveC11"
     sNone = "sNone"
 End Sub
+Sub UiInit()
+	getAPTime = UiInputCheck("getAPTime")
+	getGoldTime = UiInputCheck("getGoldTime")
+	tapNoteTime = UiInputCheck("tapNoteTime")
+End Sub
+Function UiInputCheck(uiName)
+    Dim UiInputTmp = ReadUIConfig(uiName)
+    If UiInputTmp = "" Or UiInputTmp = null  Then 
+		UiInputCheck = 0
+	Else 
+		UiInputCheck = CInt(UiInputTmp)
+	End If
+End Function
 Function PlayerMove(moveDirect,KeepTime)
     Dim CenterX,CenterY,SwipeTargetX,SwipeTargetY
     CenterX = 497
