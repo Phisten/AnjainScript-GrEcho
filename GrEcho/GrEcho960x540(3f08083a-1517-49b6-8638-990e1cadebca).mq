@@ -434,14 +434,14 @@ While true
 		End If
     	DelayRnd 3000, 100
 	
-	'globol
+	'global
 	ElseIf find({pic:"DailyQuestResult_576,344,671,389..png"}) Then 
 	ElseIf find({pic:"GetChest_446,338,518,359..png"}) Then 
 	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then
 	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then
 	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
 	ElseIf find({pic:"Result_Touch_531,492,562,513..png"}) Then
-	
+	ElseIf find({pic:"NewChar_700,314,741,351.png"}) Then
 	
 	
     'Login
