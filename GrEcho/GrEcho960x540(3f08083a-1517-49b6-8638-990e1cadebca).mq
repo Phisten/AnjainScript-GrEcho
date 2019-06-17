@@ -602,8 +602,9 @@ Function SubScript_QuestBoard()
     'Tower QuickClear
     ElseIf TowerClear = False And TryFind({pic:"QuestBoard_Tower_821,350,878,362..png"}) Then
     	RunQuickClear = true
-        If false then 
-        ElseIf Find({pic:"TowerQC_626,387,715,406..png"}) then
+        If false Then 
+        ElseIf Find({pic:"TowerQC_NotFree_401,108,433,121..png"}) And Find({pic:"TowerQC_CloseTower_259,387,318,407..png"}) then
+        ElseIf Find({pic:"TowerQC_Free_407,103,457,124..png"}) And Find({pic:"TowerQC_626,387,715,406..png"}) then
         ElseIf Find({color:"1D446C",findRect:"504,196"}) then
         ElseIf Find({color:"1D446C",findRect:"504,268"}) then
         ElseIf Find({color:"1D446C", findRect:"504,338"}) Then
