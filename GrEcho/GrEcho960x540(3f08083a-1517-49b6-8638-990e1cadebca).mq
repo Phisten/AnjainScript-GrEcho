@@ -1,3 +1,4 @@
+Touch 0, 0, 1000
 'phadvAnjain ver 1.2.3
 'update:
 '1.2.2  find() enhancement
@@ -14,8 +15,7 @@
 Randomize
 Dim intX,intY,targetX,targetY,targetX2,targetY2
 Dim tempBool
-Dim lastTapTime
-lastTapTime = TickCount()
+Dim lastTapTime = TickCount()
 
 '-------------------------
 'Timer Table
@@ -329,7 +329,7 @@ Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
 Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
-Dim tapNoteTime, getGoldTime, getAPTime
+Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower
 UiInit()
 
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
@@ -447,6 +447,8 @@ While true
     'Login
 	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then
 	 	TowerClear = false
+	ElseIf find({pic:"SpLogin_353,57,538,107..png"}) Then
+	 	TowerClear = false
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
 	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
 	 	TowerClear = false
@@ -468,7 +470,7 @@ While true
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False then
-        ElseIf tapNoteTime > 0 And isTimeOver(sClearNote,tapNoteTime*60000) then
+        ElseIf UI_tapNoteTime > 0 And isTimeOver(sClearNote,UI_tapNoteTime*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
@@ -536,7 +538,7 @@ End Function
 Function SubScript_PartyNote()
     SubScript_PartyNote = true
     If isPartyPage() Then 
-        If tapNoteTime > 0 Then
+        If UI_tapNoteTime > 0 Then
             DelayRnd 500, 100
             TracePrint "swipe Note Start"
             For i = 86 To 300 Step 34
@@ -560,8 +562,8 @@ End Function
 
 Function SubScript_GetMoney()
     SubScript_GetMoney = false
-	If getGoldTime > 0 Then 
-        If isTimeOver(sLastGetMoney,getGoldTime*60000) And _  
+	If UI_getGoldTime > 0 Then 
+        If isTimeOver(sLastGetMoney,UI_getGoldTime*60000) And _  
         find({pic:"Hud_GetMoney_880,341,913,374..png"}) then
 		    SubScript_GetMoney = true
             TimerUpdate(sLastGetMoney)
@@ -572,8 +574,8 @@ Function SubScript_GetMoney()
 End Function
 Function SubScript_GetAP()
     SubScript_GetAP = false
-    If getAPTime > 0 Then
-        If isTimeOver(sLastGetAp,getAPTime*60000) And _  
+    If UI_getAPTime > 0 Then
+        If isTimeOver(sLastGetAp,UI_getAPTime*60000) And _  
         find({pic:"Hud_GetAp_883,402,914,431..png"}) then
             SubScript_GetAP = true
             TimerUpdate(sLastGetAp)
@@ -732,10 +734,13 @@ Function NavWpRun
 	NavWpRun = true
 	If NavWpIndex <= NavWpCount Then 
 		Dim tmpBM
-		tmpBM = Round(BattleCount/(TickCount()/60000),1)
-		Msg "Wp:" & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & NavWpTime(NavWpIndex) & " [" & tmpBM & "]b/m", NavWpDelay(NavWpIndex), sMsgPos_MapDown
-		PlayerMove(NavWp(NavWpIndex),NavWpTime(NavWpIndex))
-        Delay NavWpDelay(NavWpIndex)
+		tmpBM = Round(BattleCount / (TickCount() / 60000), 1)
+		Dim curNavKeepTime = NavWpTime(NavWpIndex)*UI_navTimeRate
+		Dim curNavDelay = NavWpDelay(NavWpIndex)*UI_navTimeRate
+		TracePrint UI_navTimeRate
+		Msg "Wp:" & NavWpIndex & "," & NavWp(NavWpIndex) & ",keep:" & curNavKeepTime & " [" & tmpBM & "]b/m", curNavDelay, sMsgPos_MapDown
+		PlayerMove(NavWp(NavWpIndex),curNavKeepTime)
+        Delay curNavDelay
         NavWpIndex = NavWpIndex + 1
 	Else 
 		NavWpRun = false
@@ -762,7 +767,7 @@ Function MapTravel(mapTravelTarget)
 
 	ElseIf find({pic:"MapCloseBtnBG_836,39,862,63..png", tapMode:DoNothing}) Then 
 		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then 
-			Msg("MapTravel_Confirm",1500,sMsgPos_MapDown)
+			Msg("MapTravel_Confirm, NavTimeRate:" & Round(UI_navTimeRate*100) & "%",1500,sMsgPos_MapDown)
 			NavMode = _WayPoint
 		End If
 		DelayRnd 2000, 200
@@ -797,9 +802,19 @@ Sub PlayerControlInit()
     sNone = "sNone"
 End Sub
 Sub UiInit()
-	getAPTime = UiInputCheck("getAPTime")
-	getGoldTime = UiInputCheck("getGoldTime")
-	tapNoteTime = UiInputCheck("tapNoteTime")
+	UI_navConfig = UiInputCheck("navConfig")
+	UI_navTimeRate = UiInputCheck("navTimeRate")
+	If UI_navTimeRate <= 0 Then 
+		UI_navTimeRate = 1.0
+	Else 
+		UI_navTimeRate = UI_navTimeRate / 100.0
+	End If
+	UI_tapNoteTime = UiInputCheck("tapNoteTime")
+	UI_getGoldTime = UiInputCheck("getGoldTime")
+	UI_getAPTime = UiInputCheck("getAPTime")
+	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
+	UI_isCheckTower = UiInputCheck("isCheckTower")
+	
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
