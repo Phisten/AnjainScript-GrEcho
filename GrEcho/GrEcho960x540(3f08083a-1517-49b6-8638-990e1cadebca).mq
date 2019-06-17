@@ -755,7 +755,7 @@ Function MapTravel(mapTravelTarget)
 		find({color:"0EB624",findRect:"842,86,868,112",fuzzyRate:0.9})
 		'TapXy 852, 90
 		DelayRnd 1000,100
-	ElseIf find({pic:"MapCloseBtn_838,39,860,65..png", tapMode:DoNothing}) Then 
+	ElseIf find({pic:"MapCloseBtn_797,20,866,80..png", tapMode:DoNothing}) Then 
 		Dim travelTargetPic
 		travelTargetPic = "MapTravel_" & mapTravelTarget & "..png"
 		
@@ -765,7 +765,7 @@ Function MapTravel(mapTravelTarget)
 		End If
 		DelayRnd 500, 100
 
-	ElseIf find({pic:"MapCloseBtnBG_836,39,862,63..png", tapMode:DoNothing}) Then 
+	ElseIf find({pic:"MapCloseBtnBG_797,20,866,80..png", tapMode:DoNothing}) Then 
 		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then 
 			Msg("MapTravel_Confirm, NavTimeRate:" & Round(UI_navTimeRate*100) & "%",1500,sMsgPos_MapDown)
 			NavMode = _WayPoint
