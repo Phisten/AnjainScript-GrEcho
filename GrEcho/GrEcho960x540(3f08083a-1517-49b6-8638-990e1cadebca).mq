@@ -568,7 +568,7 @@ Function SubScript_GetMoney()
 		    SubScript_GetMoney = true
             TimerUpdate(sLastGetMoney)
             TracePrint "GetMoney"
-            DelayRnd 2000, 500
+            DelayRnd 8000, 2000
         End if
 	End If
 End Function
@@ -580,7 +580,7 @@ Function SubScript_GetAP()
             SubScript_GetAP = true
             TimerUpdate(sLastGetAp)
             TracePrint "GetAp"
-            DelayRnd 2000,500
+            DelayRnd 8000, 2000
         End if
     End If
 End Function
