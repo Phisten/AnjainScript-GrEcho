@@ -590,7 +590,7 @@ Function SubScript_QuestBoard()
     'Select QuestBoard
     If false then
 	ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
-        If TowerClear = False then
+        If TowerClear = False And UI_isCheckTower = True then
             TracePrint "QuestBoard Select Tower"
             TapXy(868,354)
         Else
@@ -814,7 +814,7 @@ Sub UiInit()
 	UI_getGoldTime = UiInputCheck("getGoldTime")
 	UI_getAPTime = UiInputCheck("getAPTime")
 	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
-	UI_isCheckTower = UiInputCheck("isCheckTower")
+	UI_isCheckTower = ReadUIConfig("isCheckTower")
 	
 End Sub
 Function UiInputCheck(uiName)
