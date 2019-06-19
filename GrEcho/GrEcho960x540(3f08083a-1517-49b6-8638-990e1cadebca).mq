@@ -814,13 +814,15 @@ Sub UiInit()
 	UI_getGoldTime = UiInputCheck("getGoldTime")
 	UI_getAPTime = UiInputCheck("getAPTime")
 	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
-	UI_isCheckTower = ReadUIConfig("isCheckTower")
+	UI_isCheckTower = UiInputCheck("isCheckTower")
 	
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
-    If UiInputTmp = "" Or UiInputTmp = null  Then 
+    If UiInputTmp = "" Or UiInputTmp = null Then 
 		UiInputCheck = 0
+	ElseIf UiInputTmp = True or UiInputTmp = False Then
+		UiInputCheck = UiInputTmp
 	Else 
 		UiInputCheck = CInt(UiInputTmp)
 	End If
