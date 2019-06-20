@@ -447,12 +447,12 @@ While true
 	
     'Login
 	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then
-	 	TowerClear = false
+	 	TowerClear = 0
 	ElseIf find({pic:"SpLogin_353,57,538,107..png"}) Then
-	 	TowerClear = false
+	 	TowerClear = 0
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
 	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
-	 	TowerClear = false
+	 	TowerClear = 0
 
 	'--------------------------------------
     'QuickMenu Get AP/Money
@@ -603,7 +603,7 @@ Function SubScript_QuestBoard()
     'Tower QuickClear
     ElseIf TryFind({pic:"QuestBoard_Tower_821,350,878,362..png"}) Then
     	RunQuickClear = true
-    	Msg("TowerClear:" & TowerClear,5000,sMsgPos_MapDown)
+    	Msg("TowerClear:" & TowerClear,2000,sMsgPos_MapDown)
         If false Then 
         ElseIf Find({pic:"TowerQC_NotFree_401,108,433,121..png"}) And Find({pic:"TowerQC_CloseTower_259,387,318,407..png"}) Then
         	DelayRnd 2000,100
@@ -619,7 +619,8 @@ Function SubScript_QuestBoard()
         	TracePrint "Tower All Clear"
         	TapXy(878,115)
         Else 
-        	TracePrint "Tower Not Found"
+    		Msg("Tower Not Found",3000,sMsgPos_MapDown)
+        	TowerClear = TowerCount
         	TapXy(878,115)
         End if
         DelayRnd 3000,100
