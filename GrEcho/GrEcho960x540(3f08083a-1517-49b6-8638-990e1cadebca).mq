@@ -357,9 +357,10 @@ TimerUpdate(sLastGetAp)
 TimerUpdate(sClearNote)
 
 'stats flag ---------------------------------------------------------
-Dim RunQuickClear,TowerClear,ContinuQC
+Dim RunQuickClear,TowerClear,ContinuQC,TowerCount
 RunQuickClear = false
-TowerClear = false
+TowerClear = 0
+TowerCount = 3
 ContinuQC = False
 
 Dim BattleCount,BattleStat,sBattleEnd,sInBattle
@@ -590,7 +591,7 @@ Function SubScript_QuestBoard()
     'Select QuestBoard
     If false then
 	ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
-        If TowerClear = False then
+        If TowerClear < TowerCount then
             TracePrint "QuestBoard Select Tower"
             TapXy(868,354)
         Else
@@ -600,20 +601,28 @@ Function SubScript_QuestBoard()
         DelayRnd 2000,500
         
     'Tower QuickClear
-    ElseIf TowerClear = False And TryFind({pic:"QuestBoard_Tower_821,350,878,362..png"}) Then
+    ElseIf TryFind({pic:"QuestBoard_Tower_821,350,878,362..png"}) Then
     	RunQuickClear = true
+    	Msg("TowerClear:" & TowerClear,5000,sMsgPos_MapDown)
         If false Then 
-        ElseIf Find({pic:"TowerQC_NotFree_401,108,433,121..png"}) And Find({pic:"TowerQC_CloseTower_259,387,318,407..png"}) then
-        ElseIf Find({pic:"TowerQC_Free_407,103,457,124..png"}) And Find({pic:"TowerQC_626,387,715,406..png"}) then
-        ElseIf Find({color:"1D446C",findRect:"504,196"}) then
+        ElseIf Find({pic:"TowerQC_NotFree_401,108,433,121..png"}) And Find({pic:"TowerQC_CloseTower_259,387,318,407..png"}) Then
+        	DelayRnd 2000,100
+        ElseIf Find({pic:"TowerQC_Free_407,103,457,124..png"}) And Find({pic:"TowerQC_626,387,715,406..png"}) Then
+        	DelayRnd 2000,100
+        ElseIf Find({color:"1D446C", findRect:"504,196"}) Then
+        	TowerClear = TowerClear + 1
         ElseIf Find({color:"1D446C",findRect:"504,268"}) then
+        	TowerClear = TowerClear + 1
         ElseIf Find({color:"1D446C", findRect:"504,338"}) Then
-        Else 
-        	TowerClear = True
+        	TowerClear = TowerClear + 1
+        ElseIf TowerClear >= TowerCount Then
         	TracePrint "Tower All Clear"
         	TapXy(878,115)
+        Else 
+        	TracePrint "Tower Not Found"
+        	TapXy(878,115)
         End if
-        DelayRnd 2000,500
+        DelayRnd 3000,100
 
     'Hokora QuickClear
     ElseIf TryFind({pic:"QuestBoard_Hokora_817,284,889,306..png"}) Then
