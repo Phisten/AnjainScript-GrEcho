@@ -581,7 +581,7 @@ Function SubScript_GetAP()
             SubScript_GetAP = true
             TimerUpdate(sLastGetAp)
             TracePrint "GetAp"
-            DelayRnd 8000,2000
+            DelayRnd 8000, 2000
         End if
     End If
 End Function
@@ -591,7 +591,7 @@ Function SubScript_QuestBoard()
     'Select QuestBoard
     If false then
 	ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
-        If TowerClear < TowerCount then
+        If TowerClear < TowerCount And UI_isCheckTower = True  then
             TracePrint "QuestBoard Select Tower"
             TapXy(868,354)
         Else
@@ -828,8 +828,10 @@ Sub UiInit()
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
-    If UiInputTmp = "" Or UiInputTmp = null  Then 
+    If UiInputTmp = "" Or UiInputTmp = null Then 
 		UiInputCheck = 0
+	ElseIf UiInputTmp = True or UiInputTmp = False Then
+		UiInputCheck = UiInputTmp
 	Else 
 		UiInputCheck = CInt(UiInputTmp)
 	End If
