@@ -1,3 +1,5 @@
+Touch 0, 0, 1000
+Touch 0, 0, 1000
 'phadvAnjain ver 1.2.3
 'update:
 '1.2.2  find() enhancement
@@ -368,6 +370,7 @@ ContinuQC = False
 
 Dim BattleCount,BattleStat,sBattleEnd,sInBattle
 BattleCount = 0
+Dim curNavBattleCount = 0
 BattleStat = null
 sBattleEnd = "sBattleEnd"
 sInBattle = "sInBattle"
@@ -401,6 +404,7 @@ Dim CommonDelay,CommonDelayRnd
 CommonDelay = 800
 CommonDelayRnd = 100
 
+NavEventInit
 NavPlan_Map1_D1Area 
 While true
 	'debug------------------------
@@ -421,6 +425,7 @@ While true
 	ElseIf find({pic:"BattleEnd_ResultExp_877,277,896,297..png"}) Then
 		If BattleStat = sInBattle Then 
 			BattleCount = BattleCount + 1
+			curNavBattleCount = curNavBattleCount + 1
 			BattleStat = sBattleEnd
 			Msg("BattleCount:" & BattleCount & ",btl/min:" & Round(BattleCount/(TickCount()/60000),2),5000,sMsgPos_MapDown)
 		End If
@@ -433,6 +438,7 @@ While true
 	ElseIf find({pic:"BattleResult_300,65,369,71..png"}) Then
 		If BattleStat = sInBattle Then 
 			BattleCount = BattleCount + 1
+			curNavBattleCount = curNavBattleCount + 1
 			BattleStat = sBattleEnd
 			Msg("BattleCount:" & BattleCount & ",btl/min:" & Round(BattleCount/(TickCount()/60000),2),5000,sMsgPos_MapDown)
 		End If
@@ -669,6 +675,10 @@ End Function
 
 '--------------------------------------------------
 'Nav config
+Sub NavRestart
+	NavEventInit
+	NavPlan_Map1_D1Area
+End Sub
 Sub NavPlan_Map1_D1Area
 	NavPlan = _Map1_D1Area
 	NavMode = _MapTravel
@@ -696,7 +706,11 @@ sMoveC03,	500,	100,	_
 sMoveC07,	700,	100,	_
 sNone,		0,		0		)
 
-	NavWpStructConfig(NavWpStruct)
+	NavWpStructConfig (NavWpStruct)
+	
+	'test func:  reset nav if monster all killed
+	Dim monsterCount = 4
+	HockNavEvent_Reset_IfNavBattleCount(monsterCount)
 End Sub
 
 Sub NavWPConfig_ClockTest
@@ -728,6 +742,32 @@ sNone,		0,		0		)
 ')
 
 End Sub
+'-----------------------------------------------------------------------------------------
+'nav Event
+Sub NavEventInit
+    NavEventEnable_Reset_IfNavBattleCount = False
+    NavEventParam_battleLimit = 0
+End Sub
+
+
+Dim NavEventEnable_Reset_IfNavBattleCount
+Dim NavEventParam_battleLimit
+Function HockNavEvent_Reset_IfNavBattleCount(battleLimit)
+	NavEventEnable_Reset_IfNavBattleCount = true
+	navEventParam_battleLimit = battleLimit
+End Function
+Function NavEvent_Reset_IfNavBattleCount()
+	NavEvent_Reset_IfNavBattleCount = false
+	If NavEventEnable_Reset_IfNavBattleCount Then 
+		If curNavBattleCount >= navEventParam_battleLimit Then 
+			NavRestart 
+    		Msg("Area clear , Nav Restart",3000,sMsgPos_MapDown)
+		End If
+	End If
+End Function
+
+
+
 
 '-----------------------------------------------------------------------------------------
 'nav plan And Player control
@@ -767,6 +807,7 @@ Function NavWpRun
     	NavWpIndex = 0
 	End If
 End Function
+
 Function MapTravel(mapTravelTarget)
     TracePrint _MapTravel & " : " & _Map1_D1Area
 	If isHudOn() Then 
@@ -779,8 +820,7 @@ Function MapTravel(mapTravelTarget)
 		travelTargetPic = "MapTravel_" & mapTravelTarget & "..png"
 		
 		If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"124,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
-    		TracePrint "MapTravel Succ"
-    		MapTravelCount=MapTravelCount+1
+    		TracePrint "found MapTravel target"
 		End If
 		DelayRnd 500, 100
 
@@ -788,6 +828,8 @@ Function MapTravel(mapTravelTarget)
 		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then 
 			Msg("MapTravel_Confirm, NavTimeRate:" & Round(UI_navTimeRate*100) & "%",1500,sMsgPos_MapDown)
 			NavMode = _WayPoint
+    		MapTravelCount=MapTravelCount+1
+			curNavBattleCount = 0
 		End If
 		DelayRnd 2000, 200
 	Else 
