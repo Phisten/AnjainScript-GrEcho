@@ -332,6 +332,9 @@ PlayerControlInit()
 Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower
 UiInit()
 
+Dim IsHokoraScrollOnTop
+QuestParaInit()
+
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
 _MapTravel = "MapTravel"
 _WayPoint = "WayPoint"
@@ -632,17 +635,22 @@ Function SubScript_QuestBoard()
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
         	ElseIf Find({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
         		TracePrint "hokora"
-        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then
+        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
         		TracePrint "hokora"
-            	TapXy(517,174)
+        		IsHokoraScrollOnTop = True
+            	//TapXy(517,174)
+            ElseIf IsHokoraScrollOnTop = True Then
+            	TapXy (411, 245)
         	Else 
         		TracePrint "hokora Roll scroll"
+        		SwipeAB (581, 192, 588, 457, 100)
 //            	SwipeAB(581,457,588,192,100)
-				TapXy 411, 245
+//				TapXy 411, 245
         	End if
         Else 
         	TracePrint "hokora last 1 enegry , exit board"
         	RunQuickClear = False
+        	IsHokoraScrollOnTop = False
         	TapXy(40,34)
         End If
         DelayRnd 2000,500
@@ -826,6 +834,9 @@ Sub UiInit()
 	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
 	UI_isCheckTower = UiInputCheck("isCheckTower")
 	
+End Sub
+Sub QuestParaInit()
+	IsHokoraScrollOnTop = False
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
