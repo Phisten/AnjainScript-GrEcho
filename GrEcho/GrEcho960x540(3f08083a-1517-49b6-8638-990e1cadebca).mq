@@ -947,6 +947,8 @@ Function PlayerMove(moveDirect,KeepTime)
         SwipeTargetX = SwipeTargetX - 200
     Case sMoveC12
         SwipeTargetY = SwipeTargetY - 200
+    Case sNone
+        Exit Function
     End Select
     TracePrint "Player Move : " & moveDirect & " , Ms:" & KeepTime
 	SwipeAB(CenterX,CenterY, SwipeTargetX, SwipeTargetY, KeepTime)
