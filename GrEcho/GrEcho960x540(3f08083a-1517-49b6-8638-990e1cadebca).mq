@@ -457,6 +457,8 @@ While true
 	 	TowerClear = 0
 	ElseIf find({pic:"SpLogin_353,57,538,107..png"}) Then
 	 	TowerClear = 0
+	ElseIf find({pic:"SpLogin_810,416,891,485..png"}) Then
+	 	TowerClear = 0
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
 	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
 	 	TowerClear = 0
