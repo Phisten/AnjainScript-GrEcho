@@ -329,7 +329,7 @@ Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
 Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
-Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower
+Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp
 UiInit()
 
 Dim IsHokoraScrollOnTop
@@ -402,6 +402,11 @@ Dim CommonDelay,CommonDelayRnd
 CommonDelay = 800
 CommonDelayRnd = 100
 
+'Open Game
+If UI_openApp = true then
+    'RunApp "grEcho"
+End if
+
 NavEventInit
 NavPlan_Map1_D1Area 
 While true
@@ -449,7 +454,10 @@ While true
 	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then
 	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
 	ElseIf find({pic:"Result_Touch_531,492,562,513..png"}) Then
-	ElseIf find({pic:"NewChar_700,314,741,351.png"}) Then
+	ElseIf find({pic:"NewChar_700,314,741,351..png"}) Then
+	ElseIf find({pic:"CharStarUp_495,418,580,443..png"}) Then
+	
+	
 	
 	
     'Login
@@ -875,7 +883,7 @@ Sub UiInit()
 	UI_getAPTime = UiInputCheck("getAPTime")
 	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
 	UI_isCheckTower = UiInputCheck("isCheckTower")
-	
+	UI_openApp = UiInputCheck("openApp")
 End Sub
 Sub QuestParaInit()
 	IsHokoraScrollOnTop = False
