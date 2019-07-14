@@ -667,7 +667,7 @@ Function SubScript_QuestBoard()
         	IsHokoraScrollOnTop = False
         	TapXy(40,34)
         End If
-        DelayRnd 2000,500
+        DelayRnd 1500,0
     ElseIf TryFind({pic:"QuestBoard_Main_BG_831,101,857,124..png"}) then
         If false Then 
         ElseIf Find({pic:"TowerQC_NoCostConfirm_481,192,531,216..png",Dot:"605,391"}) then
