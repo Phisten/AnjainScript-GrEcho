@@ -455,7 +455,7 @@ While true
 	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
 	ElseIf find({pic:"Result_Touch_531,492,562,513..png"}) Then
 	ElseIf find({pic:"NewChar_700,314,741,351..png"}) Then
-	ElseIf find({pic:"CharStarUp_495,418,580,443..png"}) Then
+	ElseIf find({pic:"CharStarUpDef_307,310,373,342..png"}) Then
 	
 	
 	
@@ -667,13 +667,13 @@ Function SubScript_QuestBoard()
         	IsHokoraScrollOnTop = False
         	TapXy(40,34)
         End If
-        DelayRnd 1500,0
+        DelayRnd 1000,500
     ElseIf TryFind({pic:"QuestBoard_Main_BG_831,101,857,124..png"}) then
         If false Then 
         ElseIf Find({pic:"TowerQC_NoCostConfirm_481,192,531,216..png",Dot:"605,391"}) then
         ElseIf Find({pic:"HokoraQC_Confirm_570,387,640,414..png"}) then
         End If
-        DelayRnd 2000,500
+        DelayRnd 1000,500
     Else
         SubScript_QuestBoard = false
     End If
