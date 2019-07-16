@@ -457,6 +457,7 @@ While true
 	ElseIf find({pic:"NewChar_700,314,741,351..png"}) Then
 	ElseIf find({pic:"CharStarUpStar_355,30,444,106..png"}) Then
 	ElseIf find({pic:"CharStarUpDef_307,310,373,342..png"}) Then
+	ElseIf find({pic:"GetNewChar_703,313,736,347..png"}) Then
 	
 	
 	
