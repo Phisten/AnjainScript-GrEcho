@@ -656,7 +656,8 @@ Function SubScript_QuestBoard()
         		IsHokoraScrollOnTop = True
             	//TapXy(517,174)
             ElseIf IsHokoraScrollOnTop = True Then
-            	TapXy (411, 245)
+//            	TapXy (411, 245) //2
+            	TapXy (456, 388) //4
         	Else 
         		TracePrint "hokora Roll scroll"
         		SwipeAB (581, 192, 588, 457, 100)
