@@ -329,10 +329,10 @@ Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
 Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
-Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp
+Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp,UI_hokoraCount,UI_hokoraCountDown
 UiInit()
 
-Dim IsHokoraScrollOnTop
+Dim IsHokoraScrollOnTop,IsHokoraScrollAtBot
 QuestParaInit()
 
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
@@ -649,16 +649,17 @@ Function SubScript_QuestBoard()
         If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
         	RunQuickClear = true
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
-        	ElseIf Find({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
-        		TracePrint "hokora"
+//        	ElseIf TryFind({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
+//        		TracePrint "hokora"
         	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
         		TracePrint "hokora"
         		IsHokoraScrollOnTop = True
             	//TapXy(517,174)
-            ElseIf IsHokoraScrollOnTop = True Then
+            ElseIf IsHokoraScrollOnTop = True And Not(TryFind({pic:"HokoraRule_202,115,252,139..png"}))  Then
 //            	TapXy (411, 245) //2
-            	TapXy (456, 388) //4
-        	Else 
+//            	TapXy (456, 388) //4
+				QuickClearHokora(UI_hokoraCount, UI_hokoraCountDown)
+        	ElseIf IsHokoraScrollOnTop = False
         		TracePrint "hokora Roll scroll"
         		SwipeAB (581, 192, 588, 457, 100)
 //            	SwipeAB(581,457,588,192,100)
@@ -887,9 +888,12 @@ Sub UiInit()
 	UI_clearHokoraTime = UiInputCheck("clearHokoraTime")
 	UI_isCheckTower = UiInputCheck("isCheckTower")
 	UI_openApp = UiInputCheck("openApp")
+	UI_hokoraCount = CInt(ReadUIConfig("hokoraCount", "0"))
+	UI_hokoraCountDown = CInt(ReadUIConfig("hokoraCountDown", "0"))
 End Sub
 Sub QuestParaInit()
 	IsHokoraScrollOnTop = False
+	IsHokoraScrollAtBot = False
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
@@ -989,3 +993,70 @@ Function isHudMapPlayerHasFound()
 		isHudMapPlayerHasFound = False
 	End If
 End Function
+
+'-----------------------------------------------------------------------------------------
+'Quick Clear Hokora
+Sub QuickClearHokora(count, countDown)
+	If count = 0 And countDown = 0 Then 
+		count = 1
+	End If
+	
+	If count = 1 Then 
+		TapXy 459, 180
+	ElseIf count = 2 Then
+		TapXy 459, 250
+	ElseIf count = 3 Then
+		TapXy 459, 320
+	ElseIf count = 4 Then
+		TapXy 459, 390
+	ElseIf count = 5 Then
+		TapXy 459, 460
+	ElseIf count = 6 Then
+		SwipeAB 551, 471, 551, 110, 3000
+		DelayRnd 600, 300
+		TapXy 459, 180
+	ElseIf count = 7 Then
+		SwipeAB 551, 471, 551, 110, 3000
+		DelayRnd 600, 300
+		TapXy 459, 250
+	ElseIf count = 8 Then
+		SwipeAB 551, 471, 551, 110, 3000
+		DelayRnd 600, 300
+		TapXy 459, 320
+	ElseIf count = 9 Then
+		SwipeAB 551, 471, 551, 110, 3000
+		DelayRnd 600, 300
+		TapXy 459, 390
+	ElseIf countDown = 1 Then
+		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			IsHokoraScrollOnTop = True
+			TapXy 459, 460
+		Else 
+			SwipeAB 551, 471, 551, 110, 100
+		End If
+	ElseIf countDown = 2 Then
+		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			TapXy 459, 390
+		Else 
+			SwipeAB 551, 471, 551, 110, 100
+		End If
+	ElseIf countDown = 3 Then
+		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			TapXy 459, 320
+		Else 
+			SwipeAB 551, 471, 551, 110, 100
+		End If
+	ElseIf countDown = 4 Then	
+		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			TapXy 459, 250
+		Else 
+			SwipeAB 551, 471, 551, 110, 100
+		End If
+	ElseIf countDown = 5 Then
+		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			TapXy 459, 180
+		Else 
+			SwipeAB 551, 471, 551, 110, 100
+		End If
+	End If
+End Sub
