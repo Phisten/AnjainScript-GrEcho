@@ -370,7 +370,7 @@ TimerUpdate(sClearNote)
 Dim RunQuickClear,TowerClear,ContinuQC,TowerCount
 RunQuickClear = false
 TowerClear = 0
-TowerCount = 3
+TowerCount = CInt(ReadUIConfig("towerCount","0"))
 ContinuQC = False
 
 Dim BattleCount,BattleStat,sBattleEnd,sInBattle
@@ -640,6 +640,8 @@ Function SubScript_QuestBoard()
         ElseIf Find({color:"1D446C",findRect:"504,268"}) then
         	TowerClear = TowerClear + 1
         ElseIf Find({color:"1D446C", findRect:"504,338"}) Then
+        	TowerClear = TowerClear + 1
+        ElseIf Find({color:"1D446C", findRect:"504,409"}) Then
         	TowerClear = TowerClear + 1
         ElseIf TowerClear >= TowerCount Then
         	TracePrint "Tower All Clear"
