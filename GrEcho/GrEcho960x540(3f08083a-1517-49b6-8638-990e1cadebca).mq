@@ -11,6 +11,7 @@
 '		"s"var  const string / table enum index
 '		MsgXy(),Msg()
 
+TracePrint DateTime.Format("%m%d%H%M",Time()+86400)
 
 Randomize
 Dim intX,intY,targetX,targetY,targetX2,targetY2
@@ -329,7 +330,7 @@ Dim MoveUp,MoveDown,MoveLeft,MoveRight,MoveLU,MoveRU,MoveLD,MoveRD
 Dim sMoveC12,sMoveC01,sMoveC02,sMoveC03,sMoveC04,sMoveC05,sMoveC06,sMoveC07,sMoveC08,sMoveC09,sMoveC10,sMoveC11,sNone
 PlayerControlInit()
 
-Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp,UI_hokoraCount,UI_hokoraCountDown
+Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp,UI_hokoraCount,UI_hokoraCountDown,UI_checkDispatchTime
 UiInit()
 
 Dim IsHokoraScrollOnTop,IsHokoraScrollAtBot
@@ -367,11 +368,12 @@ TimerUpdate(sLastGetAp)
 TimerUpdate(sClearNote)
 
 'stats flag ---------------------------------------------------------
-Dim RunQuickClear,TowerClear,ContinuQC,TowerCount
+Dim RunQuickClear,TowerClear,ContinuQC,TowerCount,HasCheckedDispatch
 RunQuickClear = false
 TowerClear = 0
 TowerCount = CInt(ReadUIConfig("towerCount","0"))
 ContinuQC = False
+HasCheckedDispatch = False
 
 Dim BattleCount,BattleStat,sBattleEnd,sInBattle
 BattleCount = 0
@@ -493,10 +495,17 @@ While true
     ElseIf (RunQuickClear Or isTimeOver(sLastQC,55*60000)) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
-        DelayRnd 2000,500
+        DelayRnd 2000, 500
+    ElseIf (CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False And UI_checkDispatchTime <> 0) And _
+     Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
+     	DelayRnd 2000, 500
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
-    	If False then
+    	If False Then 
+    	ElseIf CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False
+    		TapXy 748, 433
+    		DelayRnd 1000, 100
+    		TapXy 794, 313    		
         ElseIf UI_tapNoteTime > 0 And isTimeOver(sClearNote,UI_tapNoteTime*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
@@ -558,6 +567,7 @@ Function SubScript_Dispatch()
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png",Dot:"36,39"}) Then
     Else
         SubScript_Dispatch = false
+        HasCheckedDispatch = True
 	End If
 End Function
 
@@ -956,6 +966,17 @@ Sub UiInit()
 	UI_openApp = UiInputCheck("openApp")
 	UI_hokoraCount = CInt(ReadUIConfig("hokoraCount", "0"))
 	UI_hokoraCountDown = CInt(ReadUIConfig("hokoraCountDown", "0"))
+	UI_checkDispatchTime = ReadUIConfig("checkDispatchTime", "")
+	If UI_checkDispatchTime <> "" And CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
+		If CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
+			UI_checkDispatchTime = CInt(DateTime.Format("%m%d", Time() + 86400) & UI_checkDispatchTime)
+		Else 
+			UI_checkDispatchTime = CInt(DateTime.Format("%m%d") & CInt(UI_checkDispatchTime))
+		End If
+	Else
+		UI_checkDispatchTime = 0
+		HasCheckedDispatch = True
+	End If
 End Sub
 Sub QuestParaInit()
 	IsHokoraScrollOnTop = False
@@ -1078,19 +1099,19 @@ Sub QuickClearHokora(count, countDown)
 	ElseIf count = 5 Then
 		TapXy 459, 460
 	ElseIf count = 6 Then
-		SwipeAB 551, 471, 551, 110, 3000
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 180
 	ElseIf count = 7 Then
-		SwipeAB 551, 471, 551, 110, 3000
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 250
 	ElseIf count = 8 Then
-		SwipeAB 551, 471, 551, 110, 3000
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 320
 	ElseIf count = 9 Then
-		SwipeAB 551, 471, 551, 110, 3000
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 390
 	ElseIf countDown = 1 Then
@@ -1125,4 +1146,9 @@ Sub QuickClearHokora(count, countDown)
 			SwipeAB 551, 471, 551, 110, 100
 		End If
 	End If
+End Sub
+
+Sub SwipeHokoraPage
+	Swipe 551, 471, 551, 105, 3000
+	TracePrint "Swipe 551,471 to 551,105,keepMs:3000"
 End Sub
