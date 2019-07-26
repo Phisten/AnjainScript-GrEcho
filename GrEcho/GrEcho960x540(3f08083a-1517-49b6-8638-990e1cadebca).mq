@@ -11,8 +11,6 @@
 '		"s"var  const string / table enum index
 '		MsgXy(),Msg()
 
-TracePrint DateTime.Format("%m%d%H%M",Time()+86400)
-
 Randomize
 Dim intX,intY,targetX,targetY,targetX2,targetY2
 Dim tempBool
@@ -976,7 +974,7 @@ Sub CheckDispatchTimeInit
 		If CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
 			UI_checkDispatchTime = CInt(DateTime.Format("%m%d", Time() + 86400) & UI_checkDispatchTime)
 		Else 
-			UI_checkDispatchTime = CInt(DateTime.Format("%m%d") & CInt(UI_checkDispatchTime))
+			UI_checkDispatchTime = CInt(DateTime.Format("%m%d") & UI_checkDispatchTime)
 		End If
 	Else
 		UI_checkDispatchTime = 0
