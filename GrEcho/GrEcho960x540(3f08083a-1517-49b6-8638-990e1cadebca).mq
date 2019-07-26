@@ -972,7 +972,7 @@ Sub UiInit()
 End Sub
 Sub CheckDispatchTimeInit
 	UI_checkDispatchTime = ReadUIConfig("checkDispatchTime", "")
-	If UI_checkDispatchTime <> "" And CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
+	If UI_checkDispatchTime <> "" Then 
 		If CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
 			UI_checkDispatchTime = CInt(DateTime.Format("%m%d", Time() + 86400) & UI_checkDispatchTime)
 		Else 
