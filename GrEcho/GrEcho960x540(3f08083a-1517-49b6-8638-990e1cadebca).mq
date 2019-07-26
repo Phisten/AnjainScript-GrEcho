@@ -474,14 +474,17 @@ While true
     'Login
 	ElseIf find({pic:"LoginBound_261,51,554,102..png"}) Then
 	 	TowerClear = 0
+	 	CheckDispatchTimeInit
 	ElseIf find({pic:"SpLogin_353,57,538,107..png"}) Then
 	 	TowerClear = 0
+	 	CheckDispatchTimeInit
 	ElseIf find({pic:"SpLogin_810,416,891,485..png"}) Then
 	 	TowerClear = 0
+	 	CheckDispatchTimeInit
 	ElseIf find({pic:"DailyQuestList_727,157,784,174.png",Dot:"33,37"}) Then 
 	ElseIf find({pic:"NextDay_440,226,504,250..png",Dot:"490,398"}) Then 
 	 	TowerClear = 0
-
+		CheckDispatchTimeInit
 	'--------------------------------------
     'QuickMenu Get AP/Money
     ElseIf SubScript_GetMoney() then
@@ -527,7 +530,7 @@ While true
     ElseIf SubScript_QuestBoard() Then
     
     ElseIf SubScript_Dispatch() Then
-
+		HasCheckedDispatch = True
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then 
     	MapTravel (_Map1_D1Area)
@@ -567,7 +570,6 @@ Function SubScript_Dispatch()
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png",Dot:"36,39"}) Then
     Else
         SubScript_Dispatch = false
-        HasCheckedDispatch = True
 	End If
 End Function
 
@@ -966,6 +968,9 @@ Sub UiInit()
 	UI_openApp = UiInputCheck("openApp")
 	UI_hokoraCount = CInt(ReadUIConfig("hokoraCount", "0"))
 	UI_hokoraCountDown = CInt(ReadUIConfig("hokoraCountDown", "0"))
+	CheckDispatchTimeInit
+End Sub
+Sub CheckDispatchTimeInit
 	UI_checkDispatchTime = ReadUIConfig("checkDispatchTime", "")
 	If UI_checkDispatchTime <> "" And CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
 		If CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
