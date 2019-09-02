@@ -465,7 +465,6 @@ While true
 	ElseIf find({pic:"CharStarUpStar_355,30,444,106..png"}) Then
 	ElseIf find({pic:"CharStarUpDef_307,310,373,342..png"}) Then
 	ElseIf find({pic:"GetNewChar_703,313,736,347..png"}) Then
-	ElseIf find({pic:"NotSupportGooglePlay_657,283,712,316..png"}) Then
 	
 	
 	
@@ -612,7 +611,7 @@ Function SubScript_Dispatch()
     SubScript_Dispatch = true
 	If False Then 
     ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png"}) Then
-    ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
+    ElseIf Find({pic:"ExpResult_337,62,389,79..png"}) Then
     ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png",Dot:"36,39"}) Then
     Else
@@ -1151,33 +1150,21 @@ Sub QuickClearHokora(count, countDown)
 	ElseIf count = 5 Then
 		TapXy 459, 460
 	ElseIf count = 6 Then
-		SwipeHokoraPage 1
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 180
 	ElseIf count = 7 Then
-		SwipeHokoraPage 1
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 250
 	ElseIf count = 8 Then
-		SwipeHokoraPage 1
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 320
 	ElseIf count = 9 Then
-		SwipeHokoraPage 1
+		SwipeHokoraPage
 		DelayRnd 600, 300
 		TapXy 459, 390
-	ElseIf count = 10 Then
-		SwipeHokoraPage 1
-		DelayRnd 600, 300
-		TapXy 459, 460
-	ElseIf count = 11 Then
-		SwipeHokoraPage 2
-		DelayRnd 600, 300
-		TapXy 459, 180
-	ElseIf count = 12 Then
-		SwipeHokoraPage 2
-		DelayRnd 600, 300
-		TapXy 459, 250
 	ElseIf countDown = 1 Then
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
 			IsHokoraScrollOnTop = True
@@ -1212,11 +1199,7 @@ Sub QuickClearHokora(count, countDown)
 	End If
 End Sub
 
-Sub SwipeHokoraPage(swipeCount)
-	For swipeCount
-		TouchDown 551, 471, 1
-		TouchMove 551, 123, 1
-		Delay 1000
-		TouchUp 1
-	Next
+Sub SwipeHokoraPage
+	Swipe 551, 471, 551, 105, 3000
+	TracePrint "Swipe 551,471 to 551,105,keepMs:3000"
 End Sub
