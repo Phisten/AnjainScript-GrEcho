@@ -529,6 +529,9 @@ While true
     
     ElseIf SubScript_Dispatch() Then
 		HasCheckedDispatch = True
+	ElseIf SubScript_Shop() Then
+		
+	
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then 
     	MapTravel (_Map1_D1Area)
@@ -558,6 +561,51 @@ EndScript
 '--------------------------------------------------
 
 'Sub script
+Function SubScript_Shop()
+    SubScript_Shop = true
+    
+    Dim IsGoldShop = TryFind({pic:"Shop_Gold_808,96,893,125..png"})
+    
+    // Shop
+	//  1 3 ...
+	//  2 4 ...
+    Dim C14,C24,C34,C44,C10,C20,C30,C40
+    If IsGoldShop Then 
+		C14 = TryFind({pic:"Shop_Gold_C14_188,150,196,160..png"})
+    	C24 = TryFind({pic:"Shop_Gold_C24_189,318,196,328..png"})
+    	C34 = TryFind({pic:"Shop_Gold_C34_347,150,354,160..png"})
+    	C44 = TryFind({pic:"Shop_Gold_C44_347,318,354,328..png"})
+    	C10 = TryFind({pic:"Shop_Gold_C10_175,150,182,160..png"})
+    	C20 = TryFind({pic:"Shop_Gold_C20_175,318,182,328..png"})
+    	C30 = TryFind({pic:"Shop_Gold_C30_334,150,340,160..png"})
+    	C40 = TryFind({pic:"Shop_Gold_C40_334,318,340,328..png"})
+	End If
+
+	If False Then 
+    ElseIf Find({pic:"Shop_Buy_542,423,588,452..png"}) Then
+    ElseIf IsGoldShop And Find({pic:"Shop_Gold_5_169,283,378,475..png", fuzzyRate:"0.8", tapMode:tapFindXY}) Then
+    
+    ElseIf IsGoldShop And C14 And Not C10 Then
+    	TapXy 153,213
+    ElseIf IsGoldShop And C24 And Not C20 Then
+    	TapXy 147,377
+    ElseIf IsGoldShop And C34 And Not C30 Then
+    	TapXy 314,208
+    ElseIf IsGoldShop And C44 And Not C40 Then
+    	TapXy 307, 390
+    	
+    //ExitShop
+    ElseIf IsGoldShop _ 
+    	And (Not C14 Or C10) _ 
+    	And (Not C24 Or C20) _ 
+    	And (Not C34 Or C30) _ 
+    	And (Not C44 Or C40) Then
+    	TapXy 36,27
+    Else
+        SubScript_Shop = false
+	End If
+End Function
+
 
 Function SubScript_Dispatch()
     SubScript_Dispatch = true
