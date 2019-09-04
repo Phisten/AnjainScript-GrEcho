@@ -411,8 +411,10 @@ CommonDelayRnd = 100
 
 'Open Game
 If UI_openApp = true then
-    'RunApp "grEcho"
-End if
+	RunApp "com.square_enix.android_googleplay.grimmsechoes"
+End If
+
+
 
 NavEventInit
 NavPlan_Map1_D1Area 
@@ -583,7 +585,7 @@ Function SubScript_Shop()
 
 	If False Then 
     ElseIf Find({pic:"Shop_Buy_542,423,588,452..png"}) Then
-    ElseIf IsGoldShop And Find({pic:"Shop_Gold_5_169,283,378,475..png", fuzzyRate:"0.8", tapMode:tapFindXY}) Then
+    //ElseIf IsGoldShop And Find({pic:"Shop_Gold_5_169,283,378,475..png", fuzzyRate:"0.8", tapMode:tapFindXY}) Then
     
     ElseIf IsGoldShop And C14 And Not C10 Then
     	TapXy 153,213
