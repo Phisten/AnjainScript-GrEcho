@@ -614,6 +614,7 @@ Function SubScript_Dispatch()
 	If False Then 
     ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png"}) Then
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
+    ElseIf Find({pic:"ExpResult_343,68,354,75..png"}) Then
     ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png",Dot:"36,39"}) Then
     Else
