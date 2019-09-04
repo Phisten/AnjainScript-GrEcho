@@ -971,7 +971,7 @@ Function MapTravel(mapTravelTarget)
 	Else 
 		TracePrint "MapTravel Nothing Found"
 	End If
-	ShowMessage "Run:"& Round(TickCount()/60000,2) & "m" & "NavCount:" & MapTravelCount , 500
+	ShowMessage "Run:" & Round(TickCount() / 60000, 2) & "m" & "NavCount:" & MapTravelCount, 500, 219, 438
 End Function
 
 
