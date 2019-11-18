@@ -462,13 +462,19 @@ While true
 	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then
 	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then
 	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
-	ElseIf find({pic:"Result_Touch_531,492,562,513..png"}) Then
+	ElseIf find({pic:"Result_Touch_531,492,562,513..png", Dot:"46,108"}) Then
 	ElseIf find({pic:"NewChar_700,314,741,351..png"}) Then
 	ElseIf find({pic:"CharStarUpStar_355,30,444,106..png"}) Then
 	ElseIf find({pic:"CharStarUpDef_307,310,373,342..png"}) Then
 	ElseIf find({pic:"GetNewChar_703,313,736,347..png"}) Then
 	ElseIf find({pic:"NotSupportGooglePlay_657,283,712,316..png"}) Then
-	
+	ElseIf find({pic:"DataDownloadWindow_355,134,602,179..png", Dot:"613,399"}) Then
+	ElseIf find({pic:"GetGooglePlayService_248,196,467,238..png", Dot:"405,123" }) Then
+	ElseIf find({pic:"LoginScreenIcon_28,369,90,430..png", Dot:"457,457"}) Then	
+	ElseIf find({pic:"NewGachaOverlay_601,214,642,247"}) Then
+		
+		
+		
 	
 	
 	
@@ -535,7 +541,8 @@ While true
 	ElseIf SubScript_Shop() Then
 		
     'Nav  -----------------  
-    ElseIf NavMode = _MapTravel Then 
+    ElseIf NavMode = _MapTravel Then
+    	find({pic:"NewGachaOverlay_601,214,642,247"})
     	MapTravel (_Map1_D1Area)
     ElseIf NavMode = _WayPoint And isHudOn() And isHudMapPlayerHasFound() Then 
     	If NavWpRun() = False Then 
@@ -612,7 +619,7 @@ End Function
 Function SubScript_Dispatch()
     SubScript_Dispatch = true
 	If False Then 
-    ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png"}) Then
+    ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475" }) Then
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
     ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png",Dot:"36,39"}) Then
@@ -794,11 +801,26 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC11 ,	300,	200,	_
 			sMoveC11 ,	1200,	100,	_
 			sMoveC09 ,	200,	100,	_
-			sMoveC03 ,	200,	100,	_
-			sMoveC03 ,	1900,	100,	_
+			sMoveC03 ,	500,	100,	_
+			sMoveC03 ,	500,	100,	_
+			sMoveC03 ,	1200,	100,	_
 			sMoveC12 ,	600,	100,	_
 			sMoveC06 ,	600,	100,	_
 			sMoveC06 ,	700,	100,	_
+			sNone,		0,		0		)
+	ElseIf UI_navConfig = 3 Then
+		NavWpStruct = Array(	_
+			sMoveC06 ,	500,	100,	_
+			sMoveC09 ,	300,	200,	_
+			sMoveC12 ,	200,	100,	_
+			sMoveC09 ,	2000,	100,	_
+			sMoveC12 ,	200,	100,	_
+			sMoveC10 ,	500,	100,	_
+			sMoveC10 ,	500,	100,	_
+			sMoveC10 ,	900,	100,	_
+			sMoveC12 ,	1100,	100,	_
+			sMoveC09 ,	400,	100,	_
+			sMoveC03 ,	400,	100,	_
 			sNone,		0,		0		)
     Else 
     	NavWpStruct = Array(	_
@@ -1119,8 +1141,12 @@ Function isPartyPage()
 End Function
 Function isHudOn()
 	isHudOn = true
-	If False then
-	ElseIf find({pic:"NavIcon_29,33,57,58..png", tapMode:DoNothing}) Then 
+	If False 
+	ElseIf find({pic:"NavIcon_29,33,57,58..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon2_39,37,57,55..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon3_37,36,60,61..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon4_41,38,59,60..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon5_39,38,60,58..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
@@ -1165,31 +1191,35 @@ Sub QuickClearHokora(count, countDown)
 	
 	If countDown = 1 Then
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
-			IsHokoraScrollOnTop = True
+		 	Delay 2000
 			TapXy 459, 460
 		Else 
 			SwipeAB 551, 471, 551, 110, 100
 		End If
 	ElseIf countDown = 2 Then
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			Delay 2000
 			TapXy 459, 390
 		Else 
 			SwipeAB 551, 471, 551, 110, 100
 		End If
 	ElseIf countDown = 3 Then
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			Delay 2000
 			TapXy 459, 320
 		Else 
 			SwipeAB 551, 471, 551, 110, 100
 		End If
 	ElseIf countDown = 4 Then	
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			Delay 2000
 			TapXy 459, 250
 		Else 
 			SwipeAB 551, 471, 551, 110, 100
 		End If
 	ElseIf countDown = 5 Then
 		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+			Delay 2000
 			TapXy 459, 180
 		Else 
 			SwipeAB 551, 471, 551, 110, 100
