@@ -471,10 +471,12 @@ While true
 	ElseIf find({pic:"DataDownloadWindow_355,134,602,179..png", Dot:"613,399"}) Then
 	ElseIf find({pic:"GetGooglePlayService_248,196,467,238..png", Dot:"405,123" }) Then
 	ElseIf find({pic:"LoginScreenIcon_28,369,90,430..png", Dot:"457,457"}) Then	
-	ElseIf find({pic:"NewGachaOverlay_601,214,642,247"}) Then
+	ElseIf find({pic:"NewGachaOverlay_601,214,642,247..png"}) Then
+	ElseIf find({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"}) Then	
 		
 		
-		
+	
+	
 	
 	
 	
@@ -542,7 +544,8 @@ While true
 		
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then
-    	find({pic:"NewGachaOverlay_601,214,642,247"})
+    	find ({pic:"NewGachaOverlay_601,214,642,247..png"})
+    	find ({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"})
     	MapTravel (_Map1_D1Area)
     ElseIf NavMode = _WayPoint And isHudOn() And isHudMapPlayerHasFound() Then 
     	If NavWpRun() = False Then 
@@ -797,16 +800,24 @@ Sub NavWPConfig_Map1_D1Area
 			sNone,		0,		0		)
     ElseIf UI_navConfig = 2 Then
     	NavWpStruct = Array(	_
-			sMoveC01 ,	600,	100,	_
-			sMoveC11 ,	300,	200,	_
-			sMoveC11 ,	1200,	100,	_
-			sMoveC09 ,	200,	100,	_
-			sMoveC03 ,	500,	100,	_
-			sMoveC03 ,	500,	100,	_
-			sMoveC03 ,	1200,	100,	_
-			sMoveC12 ,	600,	100,	_
-			sMoveC06 ,	600,	100,	_
-			sMoveC06 ,	700,	100,	_
+			sMoveC03 ,	1300,	100,	_
+			sMoveC12 ,	200,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC03 ,	1300,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC03 ,	1800,	100,	_
+			sMoveC06 ,	200,	100,	_
+			sMoveC06 ,	200,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC03 ,	400,	100,	_
+			sMoveC03 ,	400,	100,	_
+			sMoveC03 ,	400,	100,	_
+			sMoveC02 ,	1600,	100,	_
+			sMoveC12 ,	400,	100,	_
+			sMoveC06 ,	400,	100,	_
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 3 Then
 		NavWpStruct = Array(	_
