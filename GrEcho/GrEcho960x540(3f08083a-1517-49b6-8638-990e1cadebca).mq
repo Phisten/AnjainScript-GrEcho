@@ -504,7 +504,7 @@ While true
     'QuickClear ------------------------------------------------------
     'OpenMenu
     'QuickTimer - OpenMenu
-    ElseIf (RunQuickClear Or isTimeOver(sLastQC,55*60000)) And _
+    ElseIf (RunQuickClear Or isTimeOver(sLastQC, UI_clearHokoraTime*60000)) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000, 500
@@ -524,11 +524,11 @@ While true
         	DelayRnd 1000,100
     		TapXy(117,430)
         	DelayRnd 1000, 100
-    	ElseIf RunQuickClear then
+    	ElseIf RunQuickClear And UI_clearHokoraTime > 0 then
      		TimerUpdate(sLastQC)
     		TracePrint "Menu Select QuestBoard"
         	DelayRnd 1000,100
-    		TapXy(297,433)
+    		TapXy(242,434)
         	DelayRnd 1000, 100
         ElseIf Timer[sMenuOpen] = null Then
         	TimerUpdate(sMenuOpen)
@@ -820,6 +820,23 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC06 ,	400,	100,	_
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 3 Then
+		NavWpStruct = Array(	_
+			sMoveC07 ,	2000,	100,	_
+			sMoveC09 ,	1300,	200,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC09 ,	4000,	100,	_
+			sMoveC12 ,	800,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC10 ,	100,	100,	_
+			sMoveC10 ,	100,	100,	_
+			sMoveC10 ,	100,	100,	_
+			sNone,		0,		0		)
+	ElseIf UI_navConfig = 4 Then
 		NavWpStruct = Array(	_
 			sMoveC06 ,	500,	100,	_
 			sMoveC09 ,	300,	200,	_
