@@ -704,18 +704,24 @@ Function SubScript_QuestBoard()
         ElseIf Find({pic:"TowerQC_NotFree_401,108,433,121..png"}) And Find({pic:"TowerQC_CloseTower_259,387,318,407..png"}) Then
         	DelayRnd 2000,100
         ElseIf Find({pic:"TowerQC_Free_407,103,457,124..png"}) And Find({pic:"TowerQC_626,387,715,406..png"}) Then
-        	DelayRnd 2000,100
-        ElseIf Find({color:"1D446C", findRect:"504,196"}) Then
-        	TowerClear = TowerClear + 1
-        ElseIf Find({color:"1D446C",findRect:"504,268"}) then
-        	TowerClear = TowerClear + 1
-        ElseIf Find({color:"1D446C", findRect:"504,338"}) Then
-        	TowerClear = TowerClear + 1
-        ElseIf Find({color:"1D446C", findRect:"504,409"}) Then
-        	TowerClear = TowerClear + 1
-        ElseIf TowerClear >= TowerCount Then
-        	TracePrint "Tower All Clear"
-        	TapXy(878,115)
+        	DelayRnd 2000, 100
+        ElseIf Find({pic:"TowerListFreeTime_478,188,514,211..png"}) Then
+        ElseIf Find({pic:"TowerListFreeTime2_479,238,514,260..png"}) Then
+        ElseIf Find({pic:"TowerListFreeTime3_480,308,512,330..png"}) Then
+        ElseIf Find({pic:"TowerListFreeTime4_480,380,513,401..png"}) Then
+        ElseIf Find({pic:"TowerListFreeTime5_480,451,512,471..png"}) Then 
+        ElseIf Find({pic:"TowerListFreeTime6_479,259,511,280..png"}) Then
+//        ElseIf Find({color:"1D446C", findRect:"504,196"}) Then
+//        	TowerClear = TowerClear + 1
+//        ElseIf Find({color:"1D446C",findRect:"504,268"}) then
+//        	TowerClear = TowerClear + 1
+//        ElseIf Find({color:"1D446C", findRect:"504,338"}) Then
+//        	TowerClear = TowerClear + 1
+//        ElseIf Find({color:"1D446C", findRect:"504,409"}) Then
+//        	TowerClear = TowerClear + 1
+//        ElseIf TowerClear >= TowerCount Then
+//        	TracePrint "Tower All Clear"
+//        	TapXy(878,115)
         Else 
     		Msg("Tower Not Found",3000,sMsgPos_MapDown)
         	TowerClear = TowerCount
