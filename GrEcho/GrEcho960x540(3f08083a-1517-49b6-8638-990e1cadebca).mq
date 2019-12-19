@@ -804,7 +804,31 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC03,	500,	100,	_
 			sMoveC07,	700,	100,	_
 			sNone,		0,		0		)
-    ElseIf UI_navConfig = 2 Then
+	ElseIf UI_navConfig = 2 Then
+    	NavWpStruct = Array(	_
+			sMoveC12,	1500,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC03,	1700,	100,	_
+			sMoveC03,	100,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC03,	100,	100,	_
+			sMoveC03,	100,	100,	_
+			sMoveC02,	1200,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	3000,	100,	_
+			sMoveC05,	500,	100,	_
+			sNone,		0,		0		)
+    ElseIf UI_navConfig = 3 Then
     	NavWpStruct = Array(	_
 			sMoveC03 ,	1300,	100,	_
 			sMoveC12 ,	200,	100,	_
@@ -824,9 +848,8 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC02 ,	1600,	100,	_
 			sMoveC12 ,	400,	100,	_
 			sMoveC06 ,	400,	100,	_
-			sNone,		0,		0		)
-    	
-	ElseIf UI_navConfig = 3 Then
+			sNone,		0,		0		)  	
+	ElseIf UI_navConfig = 4 Then
     	NavWpStruct = Array(	_
 			sMoveC03 ,	1400,	100,	_
 			sMoveC06 ,	100,	100,	_
@@ -841,7 +864,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sNone,		0,		0		)
-	ElseIf UI_navConfig = 4 Then
+	ElseIf UI_navConfig = 5 Then
 		NavWpStruct = Array(	_
 			sMoveC07 ,	2000,	100,	_
 			sMoveC09 ,	1300,	200,	_
@@ -858,7 +881,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC10 ,	100,	100,	_
 			sMoveC10 ,	100,	100,	_
 			sNone,		0,		0		)
-	ElseIf UI_navConfig = 5 Then
+	ElseIf UI_navConfig = 6 Then
 		NavWpStruct = Array(	_
 			sMoveC06 ,	500,	100,	_
 			sMoveC09 ,	300,	200,	_
