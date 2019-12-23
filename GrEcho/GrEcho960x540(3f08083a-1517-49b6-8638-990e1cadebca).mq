@@ -472,6 +472,7 @@ While true
 	ElseIf find({pic:"GetGooglePlayService_248,196,467,238..png", Dot:"405,123" }) Then
 	ElseIf find({pic:"LoginScreenIcon_28,369,90,430..png", Dot:"457,457"}) Then	
 	ElseIf find({pic:"NewGachaOverlay_601,214,642,247..png"}) Then
+	ElseIf find({pic:"NewGachaOverlay_606,136,637,162..png"}) Then
 	ElseIf find({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"}) Then	
 		
 		
@@ -545,6 +546,7 @@ While true
     'Nav  -----------------  
     ElseIf NavMode = _MapTravel Then
     	find ({pic:"NewGachaOverlay_601,214,642,247..png"})
+    	find ({pic:"NewGachaOverlay_606,136,637,162..png"})
     	find ({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"})
     	MapTravel (_Map1_D1Area)
     ElseIf NavMode = _WayPoint And isHudOn() And isHudMapPlayerHasFound() Then 
@@ -825,8 +827,12 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC09,	100,	100,	_
 			sMoveC09,	100,	100,	_
 			sMoveC09,	100,	100,	_
-			sMoveC09,	3000,	100,	_
-			sMoveC05,	500,	100,	_
+			sMoveC09,	2700,	100,	_
+			sMoveC12,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC09,	100,	100,	_
+			sMoveC06,	2000,	100,	_
 			sNone,		0,		0		)
     ElseIf UI_navConfig = 3 Then
     	NavWpStruct = Array(	_
