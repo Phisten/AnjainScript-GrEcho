@@ -894,6 +894,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC12 ,	200,	100,	_
 			sMoveC09 ,	2000,	100,	_
 			sMoveC12 ,	200,	100,	_
+			sMoveC12 ,	200,	100,	_
 			sMoveC10 ,	500,	100,	_
 			sMoveC10 ,	500,	100,	_
 			sMoveC10 ,	900,	100,	_
