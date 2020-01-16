@@ -512,6 +512,8 @@ While true
     ElseIf (CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False And UI_checkDispatchTime <> 0) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
      	DelayRnd 2000, 500
+    ElseIf UI_tapNoteTime > 0 And isTimeOver(sClearNote, UI_tapNoteTime * 60000) And Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) Then
+    	DelayRnd 2000, 500
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False Then 
@@ -523,7 +525,7 @@ While true
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
-    		TapXy(117,430)
+    		TapXy(70,437)
         	DelayRnd 1000, 100
     	ElseIf RunQuickClear And UI_clearHokoraTime > 0 then
      		TimerUpdate(sLastQC)
@@ -898,7 +900,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC10 ,	500,	100,	_
 			sMoveC10 ,	500,	100,	_
 			sMoveC10 ,	900,	100,	_
-			sMoveC12 ,	1100,	100,	_
+			sMoveC12 ,	700,	100,	_
 			sMoveC09 ,	400,	100,	_
 			sMoveC03 ,	400,	100,	_
 			sNone,		0,		0		)
