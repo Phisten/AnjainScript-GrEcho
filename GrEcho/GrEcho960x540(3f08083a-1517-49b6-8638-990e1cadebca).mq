@@ -644,7 +644,12 @@ Function SubScript_PartyNote()
             TracePrint "swipe Note Start"
             For i = 86 To 300 Step 34
                 If isPartyPage() then
-                    SwipeAB 71, i, 868, i, 2000
+//                    SwipeAB 71, i, 868, i, 2000
+                    
+                    TouchDown 71, i, 1
+					TouchMove 868, i, 1
+					Delay 500
+					TouchUp 1
                 End If
                 DelayRnd 200, 100
             Next
