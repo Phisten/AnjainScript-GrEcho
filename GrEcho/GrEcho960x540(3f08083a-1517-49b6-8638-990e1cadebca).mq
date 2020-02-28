@@ -695,18 +695,18 @@ Function SubScript_QuestBoard()
     SubScript_QuestBoard = true
     'Select QuestBoard
     If false then
-	ElseIf TryFind({pic:"QuestBoard_Main_811,97,895,129..png"}) Then
+	ElseIf TryFind({pic:"QuestBoard_Main_805,66,880,99..png"}) Then
         If TowerClear < TowerCount And UI_isCheckTower = True  then
             TracePrint "QuestBoard Select Tower"
-            TapXy(868,354)
+            TapXy(867,323)
         Else
             TracePrint "QuestBoard Select Hokora"
-            TapXy(870,291)
+            TapXy(875,265)
         End If
         DelayRnd 2000,500
         
     'Tower QuickClear
-    ElseIf TryFind({pic:"QuestBoard_Tower_821,350,878,362..png"}) Then
+    ElseIf TryFind({pic:"QuestBoard_Tower_816,311,886,337..png"}) Then
     	RunQuickClear = true
     	Msg("TowerClear:" & TowerClear,2000,sMsgPos_MapDown)
         If false Then 
@@ -734,12 +734,12 @@ Function SubScript_QuestBoard()
         Else 
     		Msg("Tower Not Found",3000,sMsgPos_MapDown)
         	TowerClear = TowerCount
-        	TapXy(878,115)
+        	TapXy(882,80)
         End if
         DelayRnd 3000,100
 
     'Hokora QuickClear
-    ElseIf TryFind({pic:"QuestBoard_Hokora_817,284,889,306..png"}) Then
+    ElseIf TryFind({pic:"QuestBoard_Hokora_816,251,889,276..png"}) Then
         If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
         	RunQuickClear = true
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
@@ -766,7 +766,7 @@ Function SubScript_QuestBoard()
         	TapXy(40,34)
         End If
         DelayRnd 1000,500
-    ElseIf TryFind({pic:"QuestBoard_Main_BG_831,101,857,124..png"}) then
+    ElseIf TryFind({pic:"QuestBoard_Main_BG_826,65,873,100..png"}) then
         If false Then 
         ElseIf Find({pic:"TowerQC_NoCostConfirm_481,192,531,216..png",Dot:"605,391"}) then
         ElseIf Find({pic:"HokoraQC_Confirm_570,387,640,414..png"}) then
@@ -1264,60 +1264,60 @@ Sub QuickClearHokora(count, countDown)
 		End If
 		
 		If Int((count - 1) Mod 5) = 0 Then 
-			TapXy 459, 180
+			TapXy 459, 150
 		ElseIf Int((count - 1) Mod 5) = 1 Then
-			TapXy 459, 250
+			TapXy 459, 220
 		ElseIf Int((count - 1) Mod 5) = 2 Then
-			TapXy 459, 320
+			TapXy 459, 290
 		ElseIf Int((count - 1) Mod 5) = 3 Then
-			TapXy 459, 390
+			TapXy 459, 360
 		ElseIf Int((count - 1) Mod 5) = 4 Then
-			TapXy 459, 460
+			TapXy 459, 430
 		End If
 	End If
 	
 	If countDown = 1 Then
-		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+		If TryFind({color:"DDFDFF-222222", findRect:"784,434,788,438"}) Then 
 		 	Delay 2000
-			TapXy 459, 460
+			TapXy 507, 412
 		Else 
-			SwipeAB 551, 471, 551, 110, 100
+			SwipeAB 556, 438, 556, 20, 100
 		End If
 	ElseIf countDown = 2 Then
-		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+		If TryFind({color:"DDFDFF-222222", findRect:"784,434,788,438"}) Then 
 			Delay 2000
-			TapXy 459, 390
+			TapXy 518, 337
 		Else 
-			SwipeAB 551, 471, 551, 110, 100
+			SwipeAB 556, 438, 556, 20, 100
 		End If
 	ElseIf countDown = 3 Then
-		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+		If TryFind({color:"DDFDFF-222222", findRect:"784,434,788,438"}) Then 
 			Delay 2000
-			TapXy 459, 320
+			TapXy 529, 273
 		Else 
-			SwipeAB 551, 471, 551, 110, 100
+			SwipeAB 556, 438, 556, 20, 100
 		End If
 	ElseIf countDown = 4 Then	
-		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+		If TryFind({color:"DDFDFF-222222", findRect:"784,434,788,438"}) Then 
 			Delay 2000
-			TapXy 459, 250
+			TapXy 545, 198
 		Else 
-			SwipeAB 551, 471, 551, 110, 100
+			SwipeAB 556, 438, 556, 20, 100
 		End If
 	ElseIf countDown = 5 Then
-		If TryFind({color:"DDFDFF-222222", findRect:"785,452,787,466"}) Then 
+		If TryFind({color:"DDFDFF-222222", findRect:"784,434,788,438"}) Then 
 			Delay 2000
-			TapXy 459, 180
+			TapXy 510, 136
 		Else 
-			SwipeAB 551, 471, 551, 110, 100
+			SwipeAB 556, 438, 556, 20, 100
 		End If
 	End If
 End Sub
 
 Sub SwipeHokoraPage(swipeCount)
 	For swipeCount
-		TouchDown 551, 471, 1
-		TouchMove 551, 123, 1
+		TouchDown 551, 439, 1
+		TouchMove 551, 91, 1
 		Delay 1000
 		TouchUp 1
 	Next
