@@ -598,7 +598,10 @@ Function SubScript_Shop()
 	End If
 
 	If False Then 
-    ElseIf Find({pic:"Shop_Buy_542,423,588,452..png"}) Then
+    ElseIf TryFind({pic:"Shop_Buy_542,423,588,452..png"}) Then
+    	If Find({pic:"Shop_Plus_Btn_587,322,616,351..png"}) Then 
+    	ElseIf Find({pic:"Shop_Buy_542,423,588,452..png"}) Then
+    	End If
     //ElseIf IsGoldShop And Find({pic:"Shop_Gold_5_169,283,378,475..png", fuzzyRate:"0.8", tapMode:tapFindXY}) Then
     
     ElseIf IsGoldShop And C14 And Not C10 Then
