@@ -331,7 +331,7 @@ PlayerControlInit()
 Dim UI_navConfig,UI_navTimeRate,UI_tapNoteTime,UI_getGoldTime,UI_getAPTime,UI_clearHokoraTime,UI_isCheckTower,UI_openApp,UI_hokoraCount,UI_hokoraCountDown,UI_checkDispatchTime
 UiInit()
 
-Dim IsHokoraScrollOnTop,IsHokoraScrollAtBot
+Dim IsHokoraScrollOnTop,IsHokoraScrollAtBot,IsDispatchScrollOnTop
 QuestParaInit()
 
 Dim NavMode,NavPlan,   _MapTravel,_WayPoint
@@ -629,12 +629,17 @@ End Function
 Function SubScript_Dispatch()
     SubScript_Dispatch = true
 	If False Then 
+	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
+		IsDispatchScrollOnTop = True
     ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475" }) Then
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
     ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png", Dot:"36,39"}) Then
    	ElseIf Find({pic:"All_Complete_Window_376,210,571,242..png", Dot:"607,403"}) Then
-    Else
+ 	ElseIf IsDispatchScrollOnTop = False And TryFind({pic:"Dispatch_Tab_823,98,902,132..png"}) Then
+		SwipeAB (581, 192, 588, 457, 100)
+    Else 
+    	IsDispatchScrollOnTop = False
         SubScript_Dispatch = false
 	End If
 End Function
@@ -1128,6 +1133,7 @@ End Sub
 Sub QuestParaInit()
 	IsHokoraScrollOnTop = False
 	IsHokoraScrollAtBot = False
+	IsDispatchScrollOnTop = False
 End Sub
 Function UiInputCheck(uiName)
     Dim UiInputTmp = ReadUIConfig(uiName)
