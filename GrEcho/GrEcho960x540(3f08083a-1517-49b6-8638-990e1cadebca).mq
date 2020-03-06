@@ -542,7 +542,7 @@ While true
     ElseIf SubScript_QuestBoard() Then
     
     ElseIf SubScript_Dispatch() Then
-		HasCheckedDispatch = True
+		
 	ElseIf SubScript_Shop() Then
 		
     'Nav  -----------------  
@@ -631,7 +631,8 @@ Function SubScript_Dispatch()
 	If False Then 
 	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
 		IsDispatchScrollOnTop = True
-    ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475" }) Then
+    ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475"}) Then
+    	HasCheckedDispatch = True
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
     ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
     ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png", Dot:"36,39"}) Then
