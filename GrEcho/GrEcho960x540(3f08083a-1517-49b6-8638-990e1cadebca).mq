@@ -870,20 +870,26 @@ Sub NavWPConfig_Map1_D1Area
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 5 Then
 		NavWpStruct = Array(	_
-			sMoveC07 ,	2000,	100,	_
-			sMoveC09 ,	1300,	200,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC09 ,	4000,	100,	_
-			sMoveC12 ,	800,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
-			sMoveC10 ,	100,	100,	_
-			sMoveC10 ,	100,	100,	_
-			sMoveC10 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	3500,	100,	_
+			sMoveC12 ,	700,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC01 ,	1800,	100,	_
+			sMoveC03 ,	500,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC10 ,	1800,	100,	_
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 6 Then
 		NavWpStruct = Array(	_
