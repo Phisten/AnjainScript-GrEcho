@@ -469,7 +469,7 @@ While true
 	ElseIf find({pic:"GetNewChar_703,313,736,347..png"}) Then
 	ElseIf find({pic:"NotSupportGooglePlay_657,283,712,316..png"}) Then
 	ElseIf find({pic:"DataDownloadWindow_355,134,602,179..png", Dot:"613,399"}) Then
-	ElseIf find({pic:"GetGooglePlayService_248,196,467,238..png", Dot:"405,123" }) Then
+	ElseIf find({pic:"GetGooglePlayService_248,198,472,236..png", Dot:"405,123" }) Then
 	ElseIf find({pic:"LoginScreenIcon_28,369,90,430..png", Dot:"457,457"}) Then	
 	ElseIf find({pic:"NewGachaOverlay_601,214,642,247..png"}) Then
 	ElseIf find({pic:"NewGachaOverlay_606,136,637,162..png"}) Then
@@ -520,7 +520,8 @@ While true
     	ElseIf CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False
     		TapXy 748, 433
     		DelayRnd 1000, 100
-    		TapXy 794, 313    		
+    		TapXy 794, 313
+    		HasCheckedDispatch = True
         ElseIf UI_tapNoteTime > 0 And isTimeOver(sClearNote,UI_tapNoteTime*60000) then
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
@@ -632,10 +633,11 @@ Function SubScript_Dispatch()
 	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
 		IsDispatchScrollOnTop = True
     ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475"}) Then
-    	HasCheckedDispatch = True
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
-    ElseIf Find({pic:"Dispatch_Red_313,160,343,190..png",Dot:"36,39"}) Then
-    ElseIf Find({pic:"Dispatch_Blue_313,160,343,190..png", Dot:"36,39"}) Then
+    ElseIf TryFind({pic:"Dispatch_Red_313,160,343,190..png"}) And IsDispatchScrollOnTop = True Then
+    	TapXy 36, 39
+    ElseIf TryFind({pic:"Dispatch_Blue_313,160,343,190..png"}) And IsDispatchScrollOnTop = True Then
+    	TapXy 36, 39
    	ElseIf Find({pic:"All_Complete_Window_376,210,571,242..png", Dot:"607,403"}) Then
  	ElseIf IsDispatchScrollOnTop = False And TryFind({pic:"Dispatch_Tab_823,98,902,132..png"}) Then
 		SwipeAB (581, 192, 588, 457, 100)
