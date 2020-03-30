@@ -834,7 +834,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC09,	100,	100,	_
 			sMoveC06,	2000,	100,	_
 			sNone,		0,		0		)
-    ElseIf UI_navConfig = 3 Then
+	ElseIf UI_navConfig = 3 Then
     	NavWpStruct = Array(	_
 			sMoveC03 ,	1300,	100,	_
 			sMoveC12 ,	200,	100,	_
@@ -854,8 +854,24 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC02 ,	1600,	100,	_
 			sMoveC12 ,	400,	100,	_
 			sMoveC06 ,	400,	100,	_
+			sNone,		0,		0		)  
+    ElseIf UI_navConfig = 4 Then
+    	NavWpStruct = Array(	_
+			sMoveC03 ,	2000,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC12 ,	1500,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC12 ,	2300,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
 			sNone,		0,		0		)  	
-	ElseIf UI_navConfig = 4 Then
+	ElseIf UI_navConfig = 5 Then
     	NavWpStruct = Array(	_
 			sMoveC03 ,	1400,	100,	_
 			sMoveC06 ,	100,	100,	_
@@ -870,7 +886,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sNone,		0,		0		)
-	ElseIf UI_navConfig = 5 Then
+	ElseIf UI_navConfig = 6 Then
 		NavWpStruct = Array(	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
@@ -893,7 +909,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC12 ,	100,	100,	_
 			sMoveC10 ,	1800,	100,	_
 			sNone,		0,		0		)
-	ElseIf UI_navConfig = 6 Then
+	ElseIf UI_navConfig = 7 Then
 		NavWpStruct = Array(	_
 			sMoveC06 ,	500,	100,	_
 			sMoveC09 ,	300,	200,	_
@@ -1027,43 +1043,17 @@ Function MapTravel(mapTravelTarget)
 		Dim travelTargetPic
 		travelTargetPic = "MapTravel_" & mapTravelTarget & "..png"
 		
-		If FindTravelTargetTimes < 5 Then 
-			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"124,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+		If UI_navConfig = 4 Then 
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"180,94,498,482", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
-    			FindTravelTargetTimes = FindTravelTargetTimes + 1
 			End If
 		Else 
-			If FindTravelTargetY > 470 Then 
-				FindTravelTargetY = 70
-				
-				If FindTargetMode = 2 Or FindTargetMode = 0 Then 
-					FindLoopTimes = FindLoopTimes + 1	
-				End If
-				
-				If FindTargetMode = 0 Or FindTargetMode = 2 Then 
-					FindTargetMode = 1
-					TapTravelTargetX_I = FindTravelTargetX + 50 * FindLoopTimes
-				ElseIf FindTargetMode = 1 Then
-					FindTargetMode = 2
-					TapTravelTargetX_D = FindTravelTargetX - 50 * FindLoopTimes
-				End If
-				
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"124,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
 			End If
-		
-			If FindTargetMode = 0 Then 
-				Tap FindTravelTargetX, FindTravelTargetY
-			ElseIf FindTargetMode = 1 Then
-				Tap TapTravelTargetX_I, FindTravelTargetY
-			ElseIf FindTargetMode = 2 Then
-				Tap TapTravelTargetX_D, FindTravelTargetY
-			End If
-			
-			FindTravelTargetY = FindTravelTargetY + 50
-		End If
-		
+		End If				
 		
 		DelayRnd 500, 100
-
 	ElseIf find({pic:"MapCloseBtnBG_797,20,866,80..png", tapMode:DoNothing}) Then 
 		If find({pic:"MapTravel_Confirm_441,229,561,245..png", Dot:"599,395"}) Then 
 			FindTravelTargetTimes = 0
