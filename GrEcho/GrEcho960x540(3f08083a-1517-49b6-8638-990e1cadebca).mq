@@ -924,6 +924,20 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC09 ,	400,	100,	_
 			sMoveC03 ,	400,	100,	_
 			sNone,		0,		0		)
+	ElseIf UI_navConfig = 8 Then
+		NavWpStruct = Array(	_
+			sMoveC04 ,	1800,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC04 ,	1600,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC03 ,	3700,	100,	_
+			sMoveC06 ,	1500,	100,	_
+			sNone,		0,		0		)
     Else 
     	NavWpStruct = Array(	_
 			sNone,		0,		0		)
@@ -1224,6 +1238,8 @@ Function isHudOn()
 	ElseIf find({pic:"NavIcon3_37,36,60,61..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon4_41,38,59,60..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon5_39,38,60,58..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon6_33,46,52,57..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon7_36,47,50,56..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
@@ -1307,7 +1323,7 @@ End Sub
 Sub SwipeHokoraPage(swipeCount)
 	For swipeCount
 		TouchDown 551, 439, 1
-		TouchMove 551, 91, 1
+		TouchMove 551, 88, 1
 		Delay 1000
 		TouchUp 1
 	Next
