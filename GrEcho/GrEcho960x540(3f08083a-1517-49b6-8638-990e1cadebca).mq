@@ -929,7 +929,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC04 ,	1800,	100,	_
 			sMoveC06 ,	100,	100,	_
 			sMoveC06 ,	100,	100,	_
-			sMoveC04 ,	1600,	100,	_
+			sMoveC04 ,	1800,	100,	_
 			sMoveC12 ,	100,	100,	_
 			sMoveC12 ,	100,	100,	_
 			sMoveC06 ,	100,	100,	_
@@ -1059,6 +1059,18 @@ Function MapTravel(mapTravelTarget)
 		
 		If UI_navConfig = 4 Then 
 			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"180,94,498,482", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
+			End If
+		ElseIf UI_navConfig = 8 Then
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"140,56,666,253", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
+    		ElseIf find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"133,56,797,287", TapMode:tapFindXY, fuzzyRate:0.9}) Then
+    			TracePrint "found MapTravel target"
+			End If
+		ElseIf UI_navConfig = 2 Then
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"513,53,832,373", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
+			ElseIf find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"400,56,836,376", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
 			End If
 		Else 
@@ -1240,6 +1252,7 @@ Function isHudOn()
 	ElseIf find({pic:"NavIcon5_39,38,60,58..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon6_33,46,52,57..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon7_36,47,50,56..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon8_31,44,52,56..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
