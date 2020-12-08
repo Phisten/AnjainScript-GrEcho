@@ -36,7 +36,7 @@ End Function
 
 '-------------------------
 'Find Func String
-Dim pic,findRect,tapMode,Rect,dropAB,DoNothing,tapFindXY,fuzzyRate,findDelay,Dot,color,Direct,rand,shiftXY,appName
+Dim pic,findRect,tapMode,Rect,dropAB,DoNothing,tapFindXY,fuzzyRate,findDelay,Dot,color,Direct,rand,shiftXY
 pic = "pic"
 color = "color"
 findRect = "findRect"
@@ -51,7 +51,6 @@ fuzzyRate = "fuzzyRate"
 findDelay = "FindDelay"
 rand = "rand"
 shiftXY = "shiftXY"
-appName = "com.square_enix.android_googleplay.grimmsechoes"
 '-----------------------------------------------------------------------------------------
 '------------------------------- anjain advance function ---------------------------------
 'ex: "Btn_InTheStoryMenu_Skip_793,29,819,60..png" -> 793,29,819,60
@@ -412,7 +411,7 @@ CommonDelayRnd = 100
 
 'Open Game
 If UI_openApp = true then
-	RunApp appName
+	RunApp "com.square_enix.android_googleplay.grimmsechoes"
 End If
 
 
@@ -479,10 +478,6 @@ While true
 		TapXy 75, 179
 	ElseIf find({pic:"ReOpenApp_308,296,444,321..png"}) Then
 	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
-	ElseIf Not Sys.AppIsFront(appName) Then
-		RunApp appName
-	
-	
 	
 	
 	
