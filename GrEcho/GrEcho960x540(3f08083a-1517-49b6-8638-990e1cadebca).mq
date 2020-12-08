@@ -36,7 +36,7 @@ End Function
 
 '-------------------------
 'Find Func String
-Dim pic,findRect,tapMode,Rect,dropAB,DoNothing,tapFindXY,fuzzyRate,findDelay,Dot,color,Direct,rand,shiftXY
+Dim pic,findRect,tapMode,Rect,dropAB,DoNothing,tapFindXY,fuzzyRate,findDelay,Dot,color,Direct,rand,shiftXY,appName
 pic = "pic"
 color = "color"
 findRect = "findRect"
@@ -51,6 +51,7 @@ fuzzyRate = "fuzzyRate"
 findDelay = "FindDelay"
 rand = "rand"
 shiftXY = "shiftXY"
+appName = "com.square_enix.android_googleplay.grimmsechoes"
 '-----------------------------------------------------------------------------------------
 '------------------------------- anjain advance function ---------------------------------
 'ex: "Btn_InTheStoryMenu_Skip_793,29,819,60..png" -> 793,29,819,60
@@ -411,7 +412,7 @@ CommonDelayRnd = 100
 
 'Open Game
 If UI_openApp = true then
-	RunApp "com.square_enix.android_googleplay.grimmsechoes"
+	RunApp appName
 End If
 
 
@@ -477,6 +478,9 @@ While true
 	ElseIf TryFind({pic:"Hokora_Window_202,117,253,138..png"}) And Not TryFind({pic:"QuestBoard_Hokora_816,251,889,276..png"}) Then	
 		TapXy 75, 179
 	ElseIf find({pic:"ReOpenApp_308,296,444,321..png"}) Then
+	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
+	ElseIf Not Sys.AppIsFront(appName) Then
+		RunApp appName
 	
 	
 	
@@ -740,7 +744,8 @@ Function SubScript_QuestBoard()
         	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
 //        	ElseIf TryFind({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
 //        		TracePrint "hokora"
-        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
+//        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
+        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,138,788,142"}) Then
         		TracePrint "hokora"
         		IsHokoraScrollOnTop = True
             	//TapXy(517,174)
