@@ -633,6 +633,7 @@ Function SubScript_Dispatch()
 	If False Then 
 	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
 		IsDispatchScrollOnTop = True
+		SubScript_Dispatch = False
     ElseIf Find({pic:"Dispatch_Clear_310,162,345,193..png", Dot:"910,475"}) Then
     ElseIf Find({pic:"ExpResult_337,61,362,83..png"}) Then
     ElseIf TryFind({pic:"Dispatch_Red_313,160,343,190..png"}) And IsDispatchScrollOnTop = True Then
@@ -1277,6 +1278,7 @@ Function isHudOn()
 	ElseIf find({pic:"NavIcon7_36,47,50,56..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon8_31,44,52,56..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon9_38,39,55,55..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon10_36,37,60,57..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
