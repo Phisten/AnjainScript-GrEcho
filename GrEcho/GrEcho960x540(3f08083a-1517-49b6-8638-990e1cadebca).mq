@@ -478,6 +478,9 @@ While true
 		TapXy 75, 179
 	ElseIf find({pic:"ReOpenApp_308,296,444,321..png"}) Then
 	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
+	ElseIf find({pic:"ConnectionErrorWindow_292,201,401,230..png", Dot:"681,328"}) Then
+	
+	
 	
 	
 	
@@ -945,22 +948,23 @@ Sub NavWPConfig_Map1_D1Area
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 9 Then
 		NavWpStruct = Array(	_
-			MoveDown,	1000,	100,	_
-			MoveDown,	600,	100,	_
-			MoveLeft,	200,	100,	_
-			MoveRight,	200,	100,	_
-			MoveRight,	200,	100,	_
-			MoveRD,		1000,	100,	_
-			MoveDown,	200,	100,	_
-			MoveUp,		200,	100,	_
-			MoveRight,	300,	100,	_
-			MoveRight,	300,	100,	_
-			MoveUp,		700,	100,	_
-			MoveRight,	300,	100,	_
-			MoveLeft,	300,	100,	_
-			MoveUp,		1500,	100,	_
-			sMoveC03,	500,	100,	_
-			sMoveC07,	700,	100,	_
+			sMoveC09 ,	3000,	100,	_
+			MoveLU ,	1600,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			MoveLU ,	1200,	100,	_
+			sMoveC09 ,	2500,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC04 ,	5000,	100,	_
+			sMoveC06 ,	2500,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
 			sNone,		0,		0		)
     Else 
     	NavWpStruct = Array(	_
