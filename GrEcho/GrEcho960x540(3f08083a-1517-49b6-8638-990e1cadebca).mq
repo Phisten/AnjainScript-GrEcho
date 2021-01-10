@@ -513,7 +513,7 @@ While true
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000, 500
-    ElseIf (CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False And UI_checkDispatchTime <> 0) And _
+    ElseIf (CInt(DateTime.Format("%Y%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False And UI_checkDispatchTime <> 0) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
      	DelayRnd 2000, 500
     ElseIf UI_tapNoteTime > 0 And isTimeOver(sClearNote, UI_tapNoteTime * 60000) And Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) Then
@@ -521,7 +521,7 @@ While true
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False Then 
-    	ElseIf CInt(DateTime.Format("%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False
+    	ElseIf CInt(DateTime.Format("%Y%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False
     		TapXy 748, 433
     		DelayRnd 1000, 100
     		TapXy 794, 313
@@ -1174,9 +1174,9 @@ Sub CheckDispatchTimeInit
 	UI_checkDispatchTime = ReadUIConfig("checkDispatchTime", "")
 	If UI_checkDispatchTime <> "" Then 
 		If CInt(UI_checkDispatchTime) < CInt(DateTime.Format("%H%M")) Then 
-			UI_checkDispatchTime = CInt(DateTime.Format("%m%d", Time() + 86400) & UI_checkDispatchTime)
+			UI_checkDispatchTime = CInt(DateTime.Format("%Y%m%d", Time() + 86400) & UI_checkDispatchTime)
 		Else 
-			UI_checkDispatchTime = CInt(DateTime.Format("%m%d") & UI_checkDispatchTime)
+			UI_checkDispatchTime = CInt(DateTime.Format("%Y%m%d") & UI_checkDispatchTime)
 		End If
 	Else
 		UI_checkDispatchTime = 0
