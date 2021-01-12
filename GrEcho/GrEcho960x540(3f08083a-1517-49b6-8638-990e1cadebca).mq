@@ -1101,6 +1101,10 @@ Function MapTravel(mapTravelTarget)
 			ElseIf find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"400,56,836,376", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
 			End If
+		ElseIf UI_navConfig = 5 Then 
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"115,42,491,500", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
+			End If
 		Else 
 			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"124,80,798,472", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
