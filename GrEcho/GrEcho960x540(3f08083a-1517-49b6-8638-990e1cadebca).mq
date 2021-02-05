@@ -893,6 +893,7 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC06 ,	2300,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
+			sMoveC09 ,	500,	100,	_
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 6 Then
 		NavWpStruct = Array(	_
@@ -1101,7 +1102,7 @@ Function MapTravel(mapTravelTarget)
 			ElseIf find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"400,56,836,376", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
 			End If
-		ElseIf UI_navConfig = 5 Then 
+		ElseIf UI_navConfig = 5 Then
 			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"115,42,491,500", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
 			End If
@@ -1374,4 +1375,11 @@ Sub SwipeHokoraPage(swipeCount)
 		Delay 1000
 		TouchUp 1
 	Next
+End Sub
+
+Sub SwipePreciously(x1, y1, x2, y2)
+	TouchDown x1, y1, 1
+	TouchMove x2, y2, 1
+	Delay 1000
+	TouchUp 1
 End Sub
