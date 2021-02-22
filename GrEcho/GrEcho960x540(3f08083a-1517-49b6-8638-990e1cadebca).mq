@@ -479,7 +479,8 @@ While true
 	ElseIf find({pic:"ReOpenApp_308,272,445,298..png"}) Then
 	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
 	ElseIf find({pic:"ConnectionErrorWindow_292,201,401,230..png", Dot:"681,328"}) Then
-	ElseIf find({pic:"CloseBannerBtn_800,100,828,115..png"}) Then
+	ElseIf find({pic:"BannerGreenDot_365,489,391,513..png", Dot:"811,105"}) Then
+	
 	
 	
 	
