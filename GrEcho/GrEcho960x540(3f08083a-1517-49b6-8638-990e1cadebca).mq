@@ -429,7 +429,7 @@ While true
     
 	If False Then
 	'Battle
-	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) Then
+	ElseIf Tryfind({pic:"Battle_PauseBtn_907,27,925,49..png"}) And isHudOn() = False Then
 		BattleStat = sInBattle
 	ElseIf find({pic:"Battle_PauseContinueBtn_559,309,619,342..png"}) Then
 		
@@ -476,11 +476,13 @@ While true
 	ElseIf find({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"}) Then	
 	ElseIf TryFind({pic:"Hokora_Window_202,117,253,138..png"}) And Not TryFind({pic:"QuestBoard_Hokora_816,251,889,276..png"}) Then	
 		TapXy 75, 179
-	ElseIf find({pic:"ReOpenApp_308,272,445,298..png"}) Then
+	ElseIf find({pic:"ReOpenApp_310,294,379,412..png"}) Then
+	 	RunApp "com.square_enix.android_googleplay.grimmsechoes"
 	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
 	ElseIf find({pic:"ConnectionErrorWindow_292,201,401,230..png", Dot:"681,328"}) Then
 	ElseIf find({pic:"BannerGreenDot_365,489,391,513..png", Dot:"811,105"}) Then
 	ElseIf find({pic:"BannerGreenDot_346,488,371,514..png", Dot:"811,105"}) Then
+	ElseIf find({pic:"BannerGreenDot_391,488,416,513..png", Dot:"811,105"}) Then
 	
 	
 	
@@ -900,16 +902,14 @@ Sub NavWPConfig_Map1_D1Area
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 6 Then
 		NavWpStruct = Array(	_
-			sMoveC03 ,	100,	100,	_
-			sMoveC03 ,	100,	100,	_
-			sMoveC03 ,	100,	100,	_
-			sMoveC03 ,	100,	100,	_
-			sMoveC03 ,	100,	100,	_
-			sMoveC03 ,	3500,	100,	_
-			sMoveC12 ,	700,	100,	_
-			sMoveC12 ,	100,	100,	_
-			sMoveC12 ,	100,	100,	_
-			sMoveC12 ,	100,	100,	_
+			sMoveC03 ,	1000,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC03 ,	300,	100,	_
+			sMoveC03 ,	3600,	100,	_
+			sMoveC12 ,	1300,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC01 ,	1800,	100,	_
@@ -917,8 +917,6 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
 			sMoveC03 ,	100,	100,	_
-			sMoveC06 ,	100,	100,	_
-			sMoveC12 ,	100,	100,	_
 			sMoveC10 ,	1800,	100,	_
 			sNone,		0,		0		)
 	ElseIf UI_navConfig = 7 Then
@@ -969,6 +967,32 @@ Sub NavWPConfig_Map1_D1Area
 			sMoveC09 ,	100,	100,	_
 			sMoveC09 ,	100,	100,	_
 			sMoveC09 ,	100,	100,	_
+			sNone,		0,		0		)
+	ElseIf UI_navConfig = 10 Then
+		NavWpStruct = Array(	_
+			sMoveC08 ,	600,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	4000,	100,	_  
+			sMoveC01 ,	1200,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC03 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC09 ,	100,	100,	_
+			sMoveC07 ,	100,	100,	_
+			sMoveC07 ,	100,	100,	_
+			sMoveC07 ,	3100,	100,	_
+			sMoveC09 ,	1000,	100,	_
+			sMoveC12 ,	100,	100,	_
+			sMoveC06 ,	100,	100,	_
+			sMoveC12 ,	600,	100,	_
+			sMoveC12 ,	600,	100,	_
+			sMoveC12 ,	600,	100,	_
 			sNone,		0,		0		)
     Else 
     	NavWpStruct = Array(	_
@@ -1107,6 +1131,10 @@ Function MapTravel(mapTravelTarget)
 			End If
 		ElseIf UI_navConfig = 5 Then
 			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"115,42,491,500", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
+    			TracePrint "found MapTravel target"
+			End If
+		ElseIf UI_navConfig = 10 Then
+			If find({color:"FFCC56|AA7011|FFE983|FFF686|FFF388|FFED83", findRect:"121,67,531,386", TapMode:tapFindXY, fuzzyRate:0.9}) Then 
     			TracePrint "found MapTravel target"
 			End If
 		Else 
@@ -1291,6 +1319,7 @@ Function isHudOn()
 	ElseIf find({pic:"NavIcon8_31,44,52,56..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon9_38,39,55,55..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon10_36,37,60,57..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon11_37,44,51,55..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
