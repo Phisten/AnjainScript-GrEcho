@@ -462,7 +462,7 @@ While true
 	ElseIf find({pic:"ChestList_278,207,346,231..png"}) Then
 	ElseIf find({pic:"ApFullOK_468,380,497,419..png"}) Then
 	ElseIf find({pic:"News_Close_766,48,787,68..png"}) Then
-	ElseIf find({pic:"Result_Touch_531,492,562,513..png", Dot:"46,108"}) Then
+	ElseIf find({pic:"Result_Touch_531,492,562,513..png", Dot:"60,97"}) Then
 	ElseIf find({pic:"NewChar_700,314,741,351..png"}) Then
 	ElseIf find({pic:"CharStarUpStar_355,30,444,106..png"}) Then
 	ElseIf find({pic:"CharStarUpDef_307,310,373,342..png"}) Then
@@ -478,11 +478,16 @@ While true
 		TapXy 75, 179
 	ElseIf find({pic:"ReOpenApp_310,294,379,412..png"}) Then
 	 	RunApp "com.square_enix.android_googleplay.grimmsechoes"
+	ElseIf find({pic:"AppNotRespond_309,273,413,296..png"}) Then
+		Delay 1000
+	 	RunApp "com.square_enix.android_googleplay.grimmsechoes" 	
 	ElseIf find({pic:"DungeonPage_173,45,204,71..png", Dot:"78,165"}) Then
 	ElseIf find({pic:"ConnectionErrorWindow_292,201,401,230..png", Dot:"681,328"}) Then
 	ElseIf find({pic:"BannerGreenDot_365,489,391,513..png", Dot:"811,105"}) Then
 	ElseIf find({pic:"BannerGreenDot_346,488,371,514..png", Dot:"811,105"}) Then
 	ElseIf find({pic:"BannerGreenDot_391,488,416,513..png", Dot:"811,105"}) Then
+	ElseIf find({pic:"BannerGreenDot_403,485,434,515..png", Dot:"811,105"}) Then
+	ElseIf find({pic:"BannerGreenDot_422,487,448,515..png", Dot:"811,105"}) Then
 	
 	
 	
@@ -1320,6 +1325,8 @@ Function isHudOn()
 	ElseIf find({pic:"NavIcon9_38,39,55,55..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon10_36,37,60,57..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"NavIcon11_37,44,51,55..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon12_44,42,52,50..png", tapMode:DoNothing}) Then
+	ElseIf find({pic:"NavIcon13_43,41,54,50..png", tapMode:DoNothing}) Then
 	ElseIf find({pic:"Hud_MenuOnBtn_895,483,925,509..png", tapMode:DoNothing}) Then
 	Else
 		isHudOn = False
