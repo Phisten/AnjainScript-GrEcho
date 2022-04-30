@@ -470,13 +470,13 @@ While true
 	ElseIf find({pic:"UnsupportGoogleConfirmBtn_663,285,704,311..png"}) Then
 	ElseIf find({pic:"DataDownloadWindow_355,134,602,179..png", Dot:"613,399"}) Then
 	ElseIf find({pic:"GetGooglePlayService_248,198,472,236..png", Dot:"405,123" }) Then
-	ElseIf find({pic:"LoginScreenIcon_67,431,135,497..png", Dot:"457,457"}) Then	
+	ElseIf find({pic:"LoginScreenIcon_78,468,193,497..png", Dot:"457,457"}) Then	
 	ElseIf find({pic:"NewGachaOverlay_601,214,642,247..png"}) Then
 	ElseIf find({pic:"NewGachaOverlay_606,136,637,162..png"}) Then
 	ElseIf find({pic:"NewHeroQuestCloseBtn_811,40,857,77..png"}) Then	
 	ElseIf TryFind({pic:"Hokora_Window_202,117,253,138..png"}) And Not TryFind({pic:"QuestBoard_Hokora_816,251,889,276..png"}) Then	
 		TapXy 75, 179
-	ElseIf find({pic:"ReOpenApp_310,294,379,412..png"}) Then
+	ElseIf find({pic:"ReOpenApp_310,273,380,297..png"}) Then
 	 	RunApp "com.square_enix.android_googleplay.grimmsechoes"
 	ElseIf find({pic:"AppNotRespond_309,273,413,296..png"}) Then
 		Delay 1000
@@ -488,6 +488,7 @@ While true
 	ElseIf find({pic:"BannerGreenDot_391,488,416,513..png", Dot:"811,105"}) Then
 	ElseIf find({pic:"BannerGreenDot_403,485,434,515..png", Dot:"811,105"}) Then
 	ElseIf find({pic:"BannerGreenDot_422,487,448,515..png", Dot:"811,105"}) Then
+	ElseIf find({pic:"BannerGreenDot_435,486,462,515..png", Dot:"811,105"}) Then
 	
 	
 	
@@ -519,7 +520,7 @@ While true
     'QuickClear ------------------------------------------------------
     'OpenMenu
     'QuickTimer - OpenMenu
-    ElseIf (RunQuickClear Or isTimeOver(sLastQC, UI_clearHokoraTime*60000)) And _
+    ElseIf UI_clearHokoraTime > 0 And (RunQuickClear Or isTimeOver(sLastQC, UI_clearHokoraTime*60000)) And _
      Find({pic:"Hud_MenuOnBtn_895,483,925,509..png"}) then
         RunQuickClear = True
         DelayRnd 2000, 500
@@ -531,7 +532,7 @@ While true
     'MenuHasBeenOpen
     ElseIf TryFind({pic:"Hud_MenuOffBtn_896,485,924,509..png"}) Then
     	If False Then 
-    	ElseIf CInt(DateTime.Format("%Y%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False
+    	ElseIf CInt(DateTime.Format("%Y%m%d%H%M")) >= UI_checkDispatchTime And HasCheckedDispatch = False And UI_checkDispatchTime <> 0
     		TapXy 748, 433
     		DelayRnd 1000, 100
     		TapXy 794, 313
@@ -540,7 +541,7 @@ While true
      		TimerUpdate(sClearNote)
     		TracePrint "Menu Select Party: Note"
         	DelayRnd 1000,100
-    		TapXy(70,437)
+    		TapXy(89,437)
         	DelayRnd 1000, 100
     	ElseIf RunQuickClear And UI_clearHokoraTime > 0 then
      		TimerUpdate(sLastQC)
@@ -748,32 +749,29 @@ Function SubScript_QuestBoard()
 
     'Hokora QuickClear
     ElseIf TryFind({pic:"QuestBoard_Hokora_816,251,889,276..png"}) Then
-        If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
-        	RunQuickClear = true
-        	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
-//        	ElseIf TryFind({pic:"Hokora_SelectScrollBot_1_304,158,321,187..png"}) Then 
+    	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
+    		
+    	End If
+    
+//        If TryFind({pic:"Hokora_HasEnegry2_488,24,507,41..png"}) Then 
+//        	RunQuickClear = true
+//        	If Find({pic:"HokoraQC_624,444,685,465..png"}) Then 
+//
+//        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,138,788,142"}) Then
 //        		TracePrint "hokora"
-//        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,168,788,172"}) Then
-        	ElseIf TryFind({color:"DDFDFF-222222", findRect:"784,138,788,142"}) Then
-        		TracePrint "hokora"
-        		IsHokoraScrollOnTop = True
-            	//TapXy(517,174)
-            ElseIf IsHokoraScrollOnTop = True And Not(TryFind({pic:"HokoraRule_202,115,252,139..png"}))  Then
-//            	TapXy (411, 245) //2
-//            	TapXy (456, 388) //4
-				QuickClearHokora(UI_hokoraCount, UI_hokoraCountDown)
-        	ElseIf IsHokoraScrollOnTop = False
-        		TracePrint "hokora Roll scroll"
-        		SwipeAB (581, 192, 588, 457, 100)
-//            	SwipeAB(581,457,588,192,100)
-//				TapXy 411, 245
-        	End if
-        Else 
-        	TracePrint "hokora last 1 enegry , exit board"
-        	RunQuickClear = False
-        	IsHokoraScrollOnTop = False
-        	TapXy(40,34)
-        End If
+//        		IsHokoraScrollOnTop = True
+//            ElseIf IsHokoraScrollOnTop = True And Not(TryFind({pic:"HokoraRule_202,115,252,139..png"}))  Then
+//				QuickClearHokora(UI_hokoraCount, UI_hokoraCountDown)
+//        	ElseIf IsHokoraScrollOnTop = False
+//        		TracePrint "hokora Roll scroll"
+//        		SwipeAB (581, 192, 588, 457, 100)
+//        	End if
+//        Else 
+//        	TracePrint "hokora last 1 enegry , exit board"
+//        	RunQuickClear = False
+//        	IsHokoraScrollOnTop = False
+//        	TapXy(40,34)
+//        End If
         DelayRnd 1000,500
     ElseIf TryFind({pic:"QuestBoard_Main_BG_826,65,873,100..png"}) then
         If false Then 
